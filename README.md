@@ -61,7 +61,9 @@ frame = round(t × 24000 / 1001).
 ## Building the site
 
 `web/index.html` is a page fragment (it is also published as a claude.ai artifact, which
-adds its own document skeleton). `build_site.sh` wraps it into a standalone page:
+adds its own document skeleton). `build_site.sh` wraps it into two standalone entry
+points: `/` with an English link preview and `/sk` with a Slovak one that opens in Slovak.
+The preview cards (`og-en.jpg`, `og-sk.jpg`) come from `make_og.py`.
 
 ```sh
 web/build_site.sh                                         # → web/dist/

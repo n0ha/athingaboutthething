@@ -943,6 +943,8 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 
 /* ---------------- language ---------------- */
 function getLang(){
+  const forced = document.documentElement.dataset.forceLang;   // set on the /sk entry page
+  if (forced === "en" || forced === "sk") return forced;
   try { const s = localStorage.getItem("att-lang"); if (s === "en" || s === "sk") return s; } catch (e) {}
   const n = (navigator.language || "en").toLowerCase();
   return (n.startsWith("sk") || n.startsWith("cs")) ? "sk" : "en";
