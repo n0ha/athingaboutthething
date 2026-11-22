@@ -1,0 +1,13 @@
+# Published: the site, the reports, the evidence log and the tools. Everything else
+# (the film, subtitles, transcripts, face data, working stills) stays local.
+/*
+!/.gitignore
+!/.github/
+!/README.md
+!/LICENSE
+!/web/
+!/the-thing-investigation/
+/web/dist/
+/web/src/
+/the-thing-investigation/frames/
+__pycache__/

@@ -1,0 +1,1211 @@
+<title>A Thing About The Thing</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A bilingual guided tour of John Carpenter's The Thing (1982): the film, its rules, who was where, and the evidence people search for in its ending.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+/* Layout concept: a dossier recovered from Outpost 31. Full-bleed film stills alternate with
+   blueprint panels; film timecodes (HH:MM:SS.mmm) are the chapter markers. One night, one look. */
+:root{
+  --night:#04070c;      /* Antarctic night */
+  --steel:#0c1520;      /* panel ground */
+  --steel-2:#122130;
+  --ice:#8fd8ff;        /* runway-blue light, primary accent */
+  --ice-dim:#3a7fae;
+  --fire:#ff8a2a;       /* the flamethrower */
+  --blood:#e3262e;      /* the Thing */
+  --snow:#e9f2f8;       /* text */
+  --frost:#9db2c3;      /* secondary text */
+  --line:rgba(143,216,255,.18);
+  --line-strong:rgba(143,216,255,.38);
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --serif:"Newsreader","Iowan Old Style","Georgia",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --measure:64ch;
+  --s1:.5rem;--s2:1rem;--s3:1.5rem;--s4:2.5rem;--s5:4rem;--s6:7rem;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;background:var(--night)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--night);color:var(--snow);font-family:var(--serif);font-size:1.13rem;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--night)}
+/* film grain */
+body::after{content:"";position:fixed;inset:-50%;z-index:70;pointer-events:none;opacity:.06;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+@media (prefers-reduced-motion:reduce){body::after{animation:none}}
+a{color:var(--ice);text-underline-offset:.2em}
+a:hover{color:var(--snow)}
+:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+img{display:block;max-width:100%;height:auto}
+/* language switching: elements carry data-l="en" or data-l="sk" */
+:root[data-lang="en"] [data-l="sk"],:root[data-lang="sk"] [data-l="en"]{display:none!important}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:1180px;margin-inline:auto}
+.prose{max-width:var(--measure)}
+.prose p{margin:0 0 1em}
+h1,h2,h3{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:.01em;line-height:.92;margin:0;text-wrap:balance}
+h2{font-size:clamp(2.6rem,7vw,5.6rem)}
+h3{font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:.02em}
+.tc{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;color:var(--ice);text-transform:uppercase;font-variant-numeric:tabular-nums}
+.tc b{color:var(--fire);font-weight:500}
+.lede{font-size:clamp(1.2rem,2.2vw,1.45rem);line-height:1.5;color:var(--snow)}
+.muted{color:var(--frost)}
+.small{font-size:.92rem}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:linear-gradient(var(--night),rgba(4,7,12,.82));backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar .inner{display:flex;align-items:center;gap:var(--s2);min-height:52px}
+.brand{font-family:var(--display);font-weight:900;font-size:1.15rem;letter-spacing:.06em;text-transform:uppercase;color:var(--snow);text-decoration:none;white-space:nowrap}
+.brand span{color:var(--ice)}
+.chapters{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.chapters::-webkit-scrollbar{display:none}
+.chapters a{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--frost);text-decoration:none;padding:.4rem .55rem;white-space:nowrap;border-radius:2px}
+.chapters a:hover{color:var(--snow);background:var(--steel)}
+.lang{display:flex;border:1px solid var(--line-strong);border-radius:2px;flex:none}
+.lang button{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;background:none;border:0;color:var(--frost);padding:.35rem .6rem;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ice);color:var(--night)}
+@media (max-width:760px){.chapters{display:none}.brand{font-size:1rem}.lang{margin-left:auto}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;min-height:min(88vh,860px);display:grid;align-items:end;isolation:isolate}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;z-index:-3;filter:saturate(1.15) contrast(1.05)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(4,7,12,.35) 0%,rgba(4,7,12,.15) 35%,rgba(4,7,12,.85) 78%,var(--night) 100%),radial-gradient(80% 60% at 70% 30%,transparent 0,rgba(4,7,12,.5) 100%)}
+#snow{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+.hero .inner{padding-block:var(--s6) var(--s4);width:100%}
+.kicker{font-family:var(--mono);font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ice);margin:0 0 var(--s2)}
+.title{font-size:clamp(3.6rem,13.5vw,12rem);line-height:.84;margin:0;letter-spacing:-.005em;color:var(--snow)}
+.title .a{display:block;font-weight:500;font-size:.34em;letter-spacing:.32em;color:var(--frost);margin-bottom:.12em}
+.title .the{display:block;color:transparent;-webkit-text-stroke:1px rgba(143,216,255,.7);font-size:.44em;line-height:1;letter-spacing:.08em;margin:.14em 0 .04em}
+.title .thing{display:block;color:var(--ice);text-shadow:0 0 18px rgba(143,216,255,.55),0 0 60px rgba(60,160,255,.45);animation:burn 7s ease-in-out infinite}
+@keyframes burn{0%,100%{text-shadow:0 0 18px rgba(143,216,255,.55),0 0 60px rgba(60,160,255,.45)}48%{text-shadow:0 0 22px rgba(143,216,255,.75),0 0 90px rgba(60,160,255,.6)}50%{text-shadow:0 0 6px rgba(143,216,255,.3),0 0 20px rgba(60,160,255,.2)}52%{text-shadow:0 0 24px rgba(143,216,255,.8),0 0 100px rgba(60,160,255,.65)}}
+@media (prefers-reduced-motion:reduce){.title .thing{animation:none}}
+.hero .lede{max-width:46ch;margin:var(--s3) 0 var(--s3)}
+.hero-row{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);align-items:center}
+.cta{font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:.08em;text-transform:uppercase;color:var(--night);background:var(--ice);padding:.65rem 1.3rem .6rem;text-decoration:none;border-radius:2px;box-shadow:0 0 30px rgba(143,216,255,.35)}
+.cta:hover{background:var(--snow);color:var(--night)}
+.spoiler{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fire)}
+.facts{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);margin-top:var(--s4);padding-top:var(--s2);border-top:1px solid var(--line)}
+.fact b{display:block;font-family:var(--display);font-size:2.4rem;line-height:1;font-weight:900;color:var(--snow)}
+.fact span{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--frost)}
+.barcode{margin-top:var(--s3)}
+.barcode canvas{width:100%;height:44px;display:block;border-radius:1px}
+.barcode p{margin:.4rem 0 0;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--frost);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* ---------- chapters ---------- */
+section.ch{padding-block:var(--s6) var(--s5);position:relative}
+.ch-head{display:grid;gap:var(--s2);margin-bottom:var(--s4)}
+.ch-head .num{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;color:var(--frost);text-transform:uppercase}
+.still{position:relative;margin:0}
+.still img{width:100%;border-radius:2px}
+.still figcaption{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;color:var(--frost);margin-top:.5rem;line-height:1.45}
+.still figcaption .tc{font-size:.72rem;margin-right:.6em}
+.bleed{margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s4);align-items:start}
+.split>*{min-width:0}
+@media (max-width:860px){.split{grid-template-columns:1fr}}
+
+/* the film */
+.prologue{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:var(--s4);align-items:center}
+.prologue>*{min-width:0}
+@media (max-width:860px){.prologue{grid-template-columns:1fr}}
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s2);margin-top:var(--s4)}
+.strip img{aspect-ratio:2.35/1;object-fit:cover;width:100%}
+@media (max-width:860px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gapnote{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s4);align-items:center;margin-top:var(--s4)}
+.gapnote>*{min-width:0}
+.gapnote .note{margin:0}
+@media (max-width:860px){.gapnote{grid-template-columns:1fr}}
+.credits{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--s2) var(--s3);margin:var(--s4) 0;padding:var(--s3) 0;border-block:1px solid var(--line)}
+.credits div{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--frost)}
+.credits b{display:block;font-family:var(--serif);font-size:1.05rem;letter-spacing:0;text-transform:none;color:var(--snow);font-weight:500;margin-top:.15rem}
+.cast{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (max-width:1060px){.cast{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:640px){.cast{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cast li{list-style:none;background:var(--night);padding:var(--s2);display:grid;grid-template-columns:auto 1fr;gap:.2rem .7rem;align-items:start}
+.cast .dot{width:14px;height:14px;border-radius:50%;margin-top:.35rem;box-shadow:0 0 12px currentColor}
+.cast b{font-family:var(--display);font-size:1.45rem;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+.cast .role{grid-column:2;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--frost)}
+.cast .fate{grid-column:2;font-size:.92rem;line-height:1.35;color:var(--snow);margin-top:.35rem}
+.cast .fate.thing{color:#ff8f93}
+.cast-wrap{padding:0;margin:var(--s3) 0 0}
+
+/* why */
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--s3)}
+.why article{border-top:2px solid var(--ice-dim);padding-top:var(--s2);min-width:0}
+.why .big{font-family:var(--display);font-weight:900;font-size:3.6rem;line-height:.9;color:var(--ice);display:block;margin-bottom:.4rem}
+.why h3{font-size:1.5rem;margin-bottom:.5rem}
+.why p{margin:0;color:var(--snow);font-size:1.02rem}
+.pull{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,4.4vw,3.4rem);line-height:1.02;text-transform:uppercase;color:var(--snow);margin:var(--s5) 0 0;max-width:22ch;text-wrap:balance}
+.pull .q{color:var(--fire)}
+.pull cite{display:block;font-family:var(--mono);font-style:normal;font-size:.8rem;letter-spacing:.1em;color:var(--frost);margin-top:.8rem;font-weight:400;text-transform:uppercase}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.rule{background:var(--night);padding:var(--s3);display:flex;flex-direction:column;gap:.55rem;min-width:0}
+.rule h3{font-size:1.65rem}
+.rule p{margin:0;font-size:1rem;color:var(--snow)}
+.badge{align-self:flex-start;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .45rem;border:1px solid currentColor;border-radius:2px}
+.b-shown{color:var(--ice)}.b-strong{color:#9fe0b8}.b-claim{color:var(--fire)}.b-fan{color:#ff8f93}
+.rule-img{grid-column:1/-1}
+
+/* ---------- viz ---------- */
+.viz-panel{background:linear-gradient(180deg,var(--steel),var(--night));border:1px solid var(--line);border-radius:3px;padding:var(--s2)}
+.mapbox svg{width:100%;height:auto;display:block}
+.room{fill:rgba(143,216,255,.035);stroke:var(--line-strong);stroke-width:1}
+.room.hot{fill:rgba(143,216,255,.09);stroke:var(--ice)}
+.room-label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;fill:var(--frost);text-transform:uppercase}
+.zone-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;fill:var(--ice);text-transform:uppercase}
+.big-label{font-family:"Big Shoulders Display",sans-serif;font-weight:900;font-size:22px;letter-spacing:.06em;fill:rgba(143,216,255,.16);text-transform:uppercase}
+.path{fill:none;stroke:var(--ice-dim);stroke-width:1.2;stroke-dasharray:4 5}
+.fog{fill:url(#fogGrad);stroke:var(--line);stroke-dasharray:3 4}
+.burned .room{fill:rgba(255,138,42,.07);stroke:rgba(255,138,42,.55)}
+.burned .room-label{fill:#ffb27a}
+.dot-g{transition:transform .7s cubic-bezier(.3,.7,.2,1),opacity .4s}
+@media (prefers-reduced-motion:reduce){.dot-g{transition:none}}
+.dot-g circle.core{stroke:var(--night);stroke-width:1.5}
+.dot-g text{font-family:var(--mono);font-size:7.5px;font-weight:500;fill:#04070c;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.dot-g.stated circle.core{fill-opacity:.15!important;stroke-width:2}
+.dot-g.stated text{fill:var(--snow)}
+.dot-g.unk{opacity:.5}
+.dot-g .halo{fill:none;opacity:0;transition:opacity .25s}
+.dot-g.seen .halo{opacity:.9}
+.dot-g .thingring{fill:none;stroke:var(--blood);stroke-width:2.5;opacity:0}
+.dot-g.thing .thingring{opacity:1;animation:pulse 1.2s ease-in-out infinite}
+.dot-g .hindring{fill:none;stroke:var(--blood);stroke-width:1.4;stroke-dasharray:2 3;opacity:0}
+.show-hind .dot-g.hind .hindring{opacity:.95}
+@keyframes pulse{50%{stroke-width:5;opacity:.6}}
+.deadlist text{font-family:var(--mono);font-size:9.5px;fill:var(--frost)}
+.deadlist text.n{fill:var(--snow)}
+
+.controls{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:.6rem 1rem;align-items:center;padding:var(--s2) 0}
+.play{width:46px;height:46px;border-radius:50%;border:1px solid var(--ice);background:rgba(143,216,255,.08);color:var(--ice);cursor:pointer;display:grid;place-items:center;font-size:1.1rem}
+.play:hover{background:var(--ice);color:var(--night)}
+.clock{font-family:var(--mono);font-size:1.5rem;font-variant-numeric:tabular-nums;color:var(--snow);letter-spacing:.04em;min-width:7.3ch}
+.clock small{display:block;font-size:.62rem;letter-spacing:.12em;color:var(--frost);text-transform:uppercase}
+input[type=range]#scrub{width:100%;accent-color:var(--ice);height:28px;min-width:0}
+.speed{display:flex;gap:2px}
+.speed button,.toggle{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;background:var(--steel);border:1px solid var(--line);color:var(--frost);padding:.35rem .55rem;cursor:pointer;border-radius:2px;text-transform:uppercase}
+.speed button[aria-pressed="true"],.toggle[aria-pressed="true"]{border-color:var(--ice);color:var(--night);background:var(--ice)}
+.caption{grid-column:1/-1;display:flex;gap:1rem;align-items:baseline;flex-wrap:wrap;min-height:2.2em}
+.caption .ev{font-family:var(--display);font-weight:700;font-size:1.45rem;letter-spacing:.03em;text-transform:uppercase;color:var(--snow);line-height:1.05}
+.caption .where{font-family:var(--mono);font-size:.72rem;color:var(--frost);letter-spacing:.06em;text-transform:uppercase}
+@media (max-width:640px){.controls{grid-template-columns:auto auto minmax(0,1fr)}.speed{grid-column:1/-1}.clock{font-size:1.2rem}}
+.chips{display:flex;gap:.4rem;flex-wrap:wrap;margin:var(--s1) 0 var(--s2)}
+.chips button{font-family:var(--mono);font-size:.7rem;letter-spacing:.03em;background:transparent;border:1px solid var(--line);color:var(--frost);padding:.3rem .5rem;border-radius:2px;cursor:pointer;text-align:left}
+.chips button:hover{border-color:var(--ice);color:var(--snow)}
+.chips button .t{color:var(--ice);margin-right:.35em}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;font-family:var(--mono);font-size:.72rem;color:var(--frost);letter-spacing:.04em;margin-top:var(--s1)}
+.legend span{display:inline-flex;align-items:center;gap:.45rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%}
+.lanes-scroll{overflow-x:auto;margin-top:var(--s3)}
+.lanes-scroll svg{min-width:760px;width:100%;height:auto;display:block;cursor:crosshair}
+.lane-label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;fill:var(--snow);text-transform:uppercase}
+.axis{font-family:var(--mono);font-size:9px;fill:var(--frost)}
+.annot{font-family:var(--mono);font-size:9.5px;fill:var(--fire);letter-spacing:.04em}
+.annot-ice{font-family:var(--mono);font-size:9px;fill:var(--ice);letter-spacing:.04em}
+.tip{position:fixed;z-index:80;pointer-events:none;background:rgba(4,7,12,.95);border:1px solid var(--line-strong);padding:.45rem .6rem;font-family:var(--mono);font-size:.74rem;color:var(--snow);max-width:280px;border-radius:2px;line-height:1.4}
+.tip b{color:var(--ice);font-weight:500}
+.note{border-left:2px solid var(--fire);padding:.2rem 0 .2rem 1rem;margin:var(--s3) 0 0;font-size:1rem;max-width:var(--measure)}
+
+/* ---------- ending ---------- */
+.script{font-family:var(--mono);font-size:.92rem;line-height:1.5;max-width:68ch;margin:var(--s3) 0 0;display:grid;gap:.9rem}
+.line{display:grid;grid-template-columns:7.2em minmax(0,1fr);gap:1rem}
+.line .tc{font-size:.72rem;padding-top:.15rem}
+.line .who{display:block;color:var(--frost);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}
+.line .orig{color:var(--snow);font-size:1.02rem}
+.line .tr{color:var(--frost);font-family:var(--serif);font-style:italic;font-size:.98rem}
+.line.act .orig{color:var(--fire);font-style:italic}
+.watch{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s2);margin-top:var(--s4)}
+.watch div{border:1px solid var(--line);padding:var(--s2);border-radius:2px;min-width:0}
+.watch .tc{display:block;margin-bottom:.35rem}
+.watch p{margin:0;font-size:1rem}
+
+/* ---------- myth lab ---------- */
+.tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid var(--line-strong);margin-bottom:var(--s3)}
+.tabs button{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:.06em;text-transform:uppercase;background:transparent;border:0;border-bottom:3px solid transparent;color:var(--frost);padding:.5rem .9rem .4rem;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--snow);border-bottom-color:var(--ice)}
+.tabs button:hover{color:var(--snow)}
+.myth{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:var(--s4);align-items:start}
+.myth>*{min-width:0}
+@media (max-width:900px){.myth{grid-template-columns:1fr}}
+.claim{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3.4vw,2.4rem);text-transform:uppercase;line-height:1;color:var(--snow);margin:0 0 var(--s2)}
+.claim::before{content:"“";color:var(--fire)}.claim::after{content:"”";color:var(--fire)}
+.stamp{display:inline-block;transform:rotate(-3deg);font-family:var(--display);font-weight:900;font-size:1.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .8rem;border:3px solid currentColor;border-radius:3px;margin:var(--s2) 0;opacity:.95}
+.stamp.no{color:var(--blood);box-shadow:0 0 0 1px rgba(227,38,46,.25) inset}
+.stamp.open{color:var(--fire)}
+.stamp.yes{color:var(--ice)}
+.myth h4{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);margin:var(--s2) 0 .3rem;font-weight:500}
+.myth p{margin:0 0 .8em;font-size:1.02rem}
+.gallery{display:grid;gap:var(--s2)}
+.gallery.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:560px){.gallery.two{grid-template-columns:1fr}}
+.twist{margin-top:var(--s3);border:1px solid rgba(255,138,42,.45);background:rgba(255,138,42,.06);padding:var(--s2) var(--s3);border-radius:2px}
+.twist h4{color:var(--fire)!important;margin-top:0!important}
+
+/* ---------- riddle timeline ---------- */
+.timeline{position:relative;display:grid;gap:var(--s3);margin-top:var(--s3);padding-left:var(--s4)}
+.timeline::before{content:"";position:absolute;left:10px;top:.4rem;bottom:.4rem;width:1px;background:linear-gradient(var(--ice-dim),var(--fire))}
+.tl{position:relative;max-width:70ch}
+.tl::before{content:"";position:absolute;left:calc(-1 * var(--s4) + 5px);top:.45rem;width:11px;height:11px;border-radius:50%;background:var(--night);border:2px solid var(--ice)}
+.tl.hot::before{border-color:var(--fire);box-shadow:0 0 14px var(--fire)}
+.tl .when{font-family:var(--display);font-weight:900;font-size:2rem;line-height:1;color:var(--snow)}
+.tl .who{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--frost);margin:.25rem 0 .4rem}
+.tl blockquote{margin:0;font-size:1.15rem;font-style:italic;color:var(--snow)}
+.tl .src{font-family:var(--mono);font-size:.68rem;color:var(--frost);margin-top:.35rem}
+
+/* ---------- verdict ---------- */
+.hyps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--s2)}
+.hyp{border:1px solid var(--line);border-radius:3px;padding:var(--s2) var(--s2) var(--s3);background:linear-gradient(180deg,var(--steel),transparent);display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.hyp .id{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;color:var(--ice)}
+.hyp h3{font-size:1.45rem;line-height:1}
+.pair{display:flex;gap:.4rem;align-items:center;font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;color:var(--frost);flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:.3rem;padding:.12rem .45rem;border-radius:999px;border:1px solid var(--line-strong)}
+.pill.h{color:var(--ice)}.pill.t{color:#ff8f93;border-color:rgba(227,38,46,.6)}
+.meter{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:.3rem}
+.meter i{height:8px;background:rgba(143,216,255,.1);border-radius:1px}
+.meter i.on{background:var(--ice);box-shadow:0 0 8px rgba(143,216,255,.5)}
+.meter i.half{background:linear-gradient(90deg,var(--ice) 50%,rgba(143,216,255,.1) 50%)}
+.hyp .conf{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--snow)}
+.hyp p{margin:0;font-size:.95rem;color:var(--frost)}
+.hyp.lead{border-color:var(--ice);box-shadow:0 0 0 1px rgba(143,216,255,.25) inset,0 0 40px rgba(143,216,255,.08)}
+.verdict{margin-top:var(--s5);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:var(--s4);align-items:center}
+.verdict>*{min-width:0}
+@media (max-width:860px){.verdict{grid-template-columns:1fr}}
+
+/* ---------- method ---------- */
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s3) var(--s2);margin:var(--s3) 0 var(--s4)}
+.nums b{display:block;font-family:var(--display);font-weight:900;font-size:2.6rem;line-height:1;color:var(--ice);font-variant-numeric:tabular-nums}
+.nums span{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--frost)}
+.sources{columns:2 320px;column-gap:var(--s4);font-size:.92rem;margin:0;padding-left:1.1rem}
+.sources li{break-inside:avoid;margin-bottom:.55rem;color:var(--frost)}
+.sources li b{color:var(--snow);font-weight:500}
+footer{border-top:1px solid var(--line);padding-block:var(--s4) var(--s5);font-family:var(--mono);font-size:.74rem;color:var(--frost);line-height:1.6}
+footer .src-link{margin-top:var(--s2)}
+footer a{color:inherit;text-underline-offset:3px}
+.fire-band{position:relative;overflow:hidden}
+.fire-band img{width:100%;height:clamp(220px,40vw,520px);object-fit:cover}
+.fire-band .over{position:absolute;inset:auto 0 0 0;padding-block:var(--s3);background:linear-gradient(transparent,var(--night))}
+
+/* ===== Round two: the trail ===== */
+.trail{list-style:none;margin:var(--s4) 0 0;padding:0 0 0 var(--s4);position:relative;display:grid;gap:var(--s4)}
+.trail::before{content:"";position:absolute;left:10px;top:.6rem;bottom:.6rem;width:2px;background:linear-gradient(var(--ice-dim),var(--blood))}
+.step{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:var(--s3);align-items:start}
+.step>*{min-width:0}
+.step::before{content:"";position:absolute;left:calc(-1 * var(--s4) + 4px);top:.5rem;width:14px;height:14px;border-radius:50%;background:var(--night);border:2px solid var(--ice)}
+.step.hot::before{border-color:var(--blood);box-shadow:0 0 16px var(--blood)}
+.step.text-only{grid-template-columns:minmax(0,1fr)}
+.step .tc{display:block;font-size:.8rem;margin-bottom:.3rem}
+.step h3{font-family:var(--display);font-weight:900;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1;text-transform:uppercase;margin:0 0 .5rem;color:var(--snow)}
+.step p{margin:0 0 .7em;font-size:1.04rem;max-width:var(--measure)}
+.step blockquote{margin:.2rem 0 .7rem;font-size:1.2rem;font-style:italic;color:var(--snow);border-left:2px solid var(--blood);padding-left:.9rem;max-width:var(--measure)}
+.step .script-quote{font-family:var(--mono);font-size:.86rem;line-height:1.5;background:rgba(233,242,248,.05);border:1px dashed var(--line-strong);padding:.6rem .8rem;border-radius:2px;margin:.2rem 0 .8rem;max-width:var(--measure)}
+.step .script-quote b{display:block;font-weight:500;color:var(--frost);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.3rem}
+.tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);max-width:1100px}
+.tri .still figcaption{font-size:.68rem}
+.dishes{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--s1);margin:var(--s3) 0 var(--s2)}
+.dish{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;text-align:center;padding:.3rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;line-height:1.2;background:radial-gradient(circle at 50% 55%,#5c0d12 0 52%,#2a0709 53% 64%,rgba(233,242,248,.10) 65% 70%,transparent 71%);color:var(--snow);position:relative}
+.dish b{display:block;font-weight:500;font-size:.66rem}
+.dish i{font-style:normal;display:block;font-size:1.1rem;margin-top:.1rem}
+.dish.ok i{color:var(--ice)}
+.dish.thing{background:radial-gradient(circle at 50% 55%,var(--blood) 0 52%,#5c0d12 53% 64%,rgba(233,242,248,.10) 65% 70%,transparent 71%)}
+.dish.q{box-shadow:0 0 0 2px var(--fire),0 0 22px rgba(255,138,42,.55)}
+.dish.q i{color:var(--fire)}
+.dish-legend{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--mono);font-size:.72rem;color:var(--frost)}
+.finding{margin-top:var(--s5);border:1px solid rgba(255,138,42,.5);background:linear-gradient(135deg,rgba(255,138,42,.10),rgba(227,38,46,.05));padding:var(--s3);border-radius:2px}
+.finding .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--fire)}
+.finding h3{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1;text-transform:uppercase;margin:.4rem 0 .6rem}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3);margin-top:var(--s4)}
+.duo>div{border:1px solid var(--line);padding:var(--s3);border-radius:2px;min-width:0}
+.duo h3{font-family:var(--display);font-weight:900;font-size:1.7rem;text-transform:uppercase;line-height:1;margin:0 0 .6rem}
+.duo .who{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);margin-bottom:.4rem}
+.duo p{margin:0 0 .7em;font-size:1rem}
+.badge{display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--night);background:var(--fire);padding:.15rem .45rem;border-radius:2px;margin-top:.5rem}
+@media (max-width:860px){.step{grid-template-columns:1fr}.duo{grid-template-columns:1fr}.dishes{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:480px){.tri{grid-template-columns:1fr}}
+</style>
+
+<header class="bar wrap">
+  <div class="inner">
+    <a class="brand" href="#top">A Thing About <span>The Thing</span></a>
+    <nav class="chapters" aria-label="Chapters">
+      <a href="#film"><span data-l="en">The film</span><span data-l="sk">Film</span></a>
+      <a href="#why"><span data-l="en">Why</span><span data-l="sk">Prečo</span></a>
+      <a href="#rules"><span data-l="en">Rules</span><span data-l="sk">Pravidlá</span></a>
+      <a href="#outpost"><span data-l="en">Who was where</span><span data-l="sk">Kto bol kde</span></a>
+      <a href="#ending"><span data-l="en">The ending</span><span data-l="sk">Záver</span></a>
+      <a href="#myths"><span data-l="en">Myth lab</span><span data-l="sk">Mýty</span></a>
+      <a href="#riddle"><span data-l="en">Carpenter</span><span data-l="sk">Carpenter</span></a>
+      <a href="#trail"><span data-l="en">Round two</span><span data-l="sk">Druhé kolo</span></a>
+      <a href="#verdict"><span data-l="en">Verdict</span><span data-l="sk">Verdikt</span></a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="lang-en" data-set-lang="en" aria-pressed="true">EN</button>
+      <button type="button" id="lang-sk" data-set-lang="sk" aria-pressed="false">SK</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <img src="img/hero-storm.jpg" alt="Two men in parkas struggle along a guide rope through a blue-lit Antarctic storm" fetchpriority="high">
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <div class="wrap"><div class="inner">
+    <p class="kicker"><span data-l="en">U.S. Outpost 31 · Antarctica · Winter 1982</span><span data-l="sk">U.S. Outpost 31 · Antarktída · zima 1982</span></p>
+    <h1 class="title"><span class="a">A Thing About</span><span class="the">The</span><span class="thing">Thing</span></h1>
+    <p class="lede">
+      <span data-l="en">Forty-four years after John Carpenter's <i>The Thing</i>, two men still sit in the snow beside a burning station, and nobody can say which of them is human. This is a guided tour of the film, its rules, and the evidence people keep hunting for.</span>
+      <span data-l="sk">Štyridsaťštyri rokov po Carpenterovom filme <i>Vec</i> stále sedia dvaja muži v snehu pri horiacej stanici a nikto nevie povedať, ktorý z nich je človek. Toto je sprievodca filmom, jeho pravidlami a dôkazmi, ktoré ľudia dodnes hľadajú.</span>
+    </p>
+    <div class="hero-row">
+      <a class="cta" href="#film"><span data-l="en">Start the tour</span><span data-l="sk">Začať prehliadku</span></a>
+      <span class="spoiler"><span data-l="en">⚠ Spoils the whole film</span><span data-l="sk">⚠ Prezrádza celý dej</span></span>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>109</b><span data-l="en">minutes</span><span data-l="sk">minút</span></div>
+      <div class="fact"><b>12</b><span data-l="en">men snowed in</span><span data-l="sk">mužov v pasci</span></div>
+      <div class="fact"><b>1</b><span data-l="en">perfect imitator</span><span data-l="sk">dokonalý imitátor</span></div>
+      <div class="fact"><b>?</b><span data-l="en">who is human at the end</span><span data-l="sk">kto je na konci človek</span></div>
+    </div>
+    <div class="barcode">
+      <canvas id="barcode-hero" width="1600" height="60" aria-label="Colour barcode of the film"></canvas>
+      <p><span data-l="en">Every vertical line is one second of the film, in the colour of its average frame.</span><span data-l="sk">Každá zvislá čiara je jedna sekunda filmu vo farbe jej priemernej snímky.</span><span>00:00 → 01:48:34</span></p>
+    </div>
+  </div></div>
+</section>
+
+<!-- ================= 1 THE FILM ================= -->
+<section class="ch wrap" id="film"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 1 · What this film is</span><span data-l="sk">Kapitola 1 · Čo je to za film</span></span>
+    <h2><span data-l="en">It is not a dog</span><span data-l="sk">Nie je to pes</span></h2>
+  </div>
+  <div class="prologue">
+    <figure class="still"><img src="img/ship.jpg" alt="A saucer-shaped ship falls towards Earth" loading="lazy" width="1600" height="680">
+      <figcaption><span class="tc">TC 00:01:34.928</span><span data-l="en">The prologue: a ship falls to Earth, thousands of years ago.</span><span data-l="sk">Prológ: pred tisíckami rokov padá na Zem loď.</span></figcaption></figure>
+    <div class="prose">
+      <p class="lede"><span data-l="en">A ship crashes into Antarctica. Thousands of years later, in the winter of 1982, a Norwegian helicopter chases a husky across the ice towards a small American research station. The Norwegians are shooting at the dog. The Americans take the dog in.</span><span data-l="sk">Do Antarktídy padne loď. O tisíce rokov neskôr, v zime 1982, nórsky vrtuľník prenasleduje po ľade huskyho k malej americkej výskumnej stanici. Nóri po psovi strieľajú. Američania ho vezmú dnu.</span></p>
+      <p><span data-l="en">What came with the dog is an organism that absorbs living things and copies them perfectly: body, voice, memory, habits. Twelve men are snowed in with it, the radio is dead, and any one of them may already be a copy. The film is about what that does to them.</span><span data-l="sk">S psom prišiel organizmus, ktorý pohlcuje živé tvory a dokonale ich kopíruje: telo, hlas, pamäť aj zvyky. Dvanásť mužov je s ním uväznených v snehu, rádio mlčí a ktokoľvek z nich už môže byť kópiou. Film je o tom, čo to s nimi urobí.</span></p>
+    </div>
+  </div>
+  <div class="strip">
+    <figure class="still"><img src="img/husky.jpg" alt="A grey and white husky running through the snow" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 00:03:34</span><span data-l="en">The dog.</span><span data-l="sk">Pes.</span></figcaption></figure>
+    <figure class="still"><img src="img/corpse.jpg" alt="The men gather around a burned, smoking body in the lab" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 00:22:58</span><span data-l="en">Something burned at the Norwegian camp.</span><span data-l="sk">Niečo spálené z nórskeho tábora.</span></figcaption></figure>
+    <figure class="still"><img src="img/spider-head.jpg" alt="Norris' severed head on spider legs" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:16:50</span><span data-l="en">Every piece wants to live.</span><span data-l="sk">Každý kúsok chce žiť.</span></figcaption></figure>
+    <figure class="still"><img src="img/tape.jpg" alt="MacReady at his desk with a tape recorder, holding shredded long johns" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:03:29</span><span data-l="en">“Nobody trusts anybody now.”</span><span data-l="sk">„Nikto už nikomu neverí.“</span></figcaption></figure>
+  </div>
+  <div class="credits">
+    <div><span data-l="en">Director</span><span data-l="sk">Réžia</span><b>John Carpenter</b></div>
+    <div><span data-l="en">Screenplay</span><span data-l="sk">Scenár</span><b>Bill Lancaster</b></div>
+    <div><span data-l="en">Based on</span><span data-l="sk">Predloha</span><b><span data-l="en">“Who Goes There?”, J. W. Campbell (1938)</span><span data-l="sk">„Who Goes There?“, J. W. Campbell (1938)</span></b></div>
+    <div><span data-l="en">Music</span><span data-l="sk">Hudba</span><b>Ennio Morricone</b></div>
+    <div><span data-l="en">Creature effects</span><span data-l="sk">Efekty tvora</span><b>Rob Bottin</b></div>
+    <div><span data-l="en">Cinematography</span><span data-l="sk">Kamera</span><b>Dean Cundey</b></div>
+    <div><span data-l="en">Released</span><span data-l="sk">Premiéra</span><b><span data-l="en">25 June 1982</span><span data-l="sk">25. júna 1982</span></b></div>
+  </div>
+  <h3><span data-l="en">The twelve men of Outpost 31</span><span data-l="sk">Dvanásť mužov zo stanice 31</span></h3>
+  <p class="muted small" style="margin:.4rem 0 0"><span data-l="en">Each man keeps his colour on the map and timeline below.</span><span data-l="sk">Každý muž má svoju farbu, ktorú si ponesie aj na mape a časovej osi nižšie.</span></p>
+  <ul class="cast cast-wrap" id="cast"></ul>
+</div></section>
+
+<!-- ================= 2 WHY ================= -->
+<section class="ch wrap" id="why"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 2 · Why people still argue about it</span><span data-l="sk">Kapitola 2 · Prečo sa o ňom stále hovorí</span></span>
+    <h2><span data-l="en">A flop that refused to die</span><span data-l="sk">Prepadák, ktorý nechcel umrieť</span></h2>
+  </div>
+  <div class="why">
+    <article><span class="big">1982</span><h3><span data-l="en">The wrong summer</span><span data-l="sk">Nesprávne leto</span></h3>
+      <p><span data-l="en">It opened in the summer of <i>E.T.</i>, when audiences wanted a friendly alien. <i>The Thing</i> did poorly in cinemas and many critics were repelled by it. Video and television found it a second audience.</span><span data-l="sk">Do kín prišiel v lete <i>E.T.</i>, keď diváci chceli priateľského mimozemšťana. <i>Vec</i> v kinách neuspela a mnohých kritikov odpudila. Druhé publikum si našla na videu a v televízii.</span></p></article>
+    <article><span class="big">0 CGI</span><h3><span data-l="en">Effects you could touch</span><span data-l="sk">Efekty, ktorých sa dalo dotknúť</span></h3>
+      <p><span data-l="en">Rob Bottin built the creature by hand: a head that splits like a flower, a chest that bites, a head that grows spider legs and walks away. It still holds up in 4K.</span><span data-l="sk">Rob Bottin postavil tvora ručne: hlavu, ktorá sa rozvinie ako kvet, hrudník, ktorý hryzie, a hlavu, ktorej narastú pavúčie nohy a odkráča. Obstojí aj v 4K.</span></p></article>
+    <article><span class="big">48 h</span><h3><span data-l="en">Paranoia as the plot</span><span data-l="sk">Paranoja ako dej</span></h3>
+      <p><span data-l="en">The monster looks like your friend. A storm locks everyone in, the blood supply is sabotaged, and the men turn on each other long before the creature shows itself.</span><span data-l="sk">Monštrum vyzerá ako tvoj kamarát. Búrka všetkých zavrie dnu, niekto zničí zásobu krvi a muži sa obrátia proti sebe dávno predtým, než sa tvor ukáže.</span></p></article>
+    <article><span class="big">?</span><h3><span data-l="en">An ending with no answer</span><span data-l="sk">Záver bez odpovede</span></h3>
+      <p><span data-l="en">Two survivors, one bottle, no way to know. And for the last few years the director has been saying that the answer is in the film.</span><span data-l="sk">Dvaja preživší, jedna fľaša a žiadny spôsob, ako to zistiť. A režisér posledné roky opakuje, že odpoveď vo filme je.</span></p></article>
+  </div>
+  <p class="pull"><span class="q">“</span>Nobody trusts anybody now. And we're all very tired.<span class="q">”</span>
+    <cite><span data-l="en">MacReady, into his tape recorder · TC 01:03:49</span><span data-l="sk">MacReady do magnetofónu · TC 01:03:49</span></cite></p>
+</div></section>
+
+<div class="fire-band"><img src="img/kennel.jpg" alt="The half-formed dog creature in the kennel, wet and red" loading="lazy" width="1600" height="680">
+  <div class="over wrap"><div class="inner"><span class="tc">TC 00:31:00.734</span> <span class="muted small"><span data-l="en">The kennel. The Thing caught halfway through copying a dog.</span><span data-l="sk">Psinec. Vec pristihnutá v polovici kopírovania psa.</span></span></div></div></div>
+
+<!-- ================= 3 RULES ================= -->
+<section class="ch wrap" id="rules"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 3 · The rules of the game</span><span data-l="sk">Kapitola 3 · Pravidlá hry</span></span>
+    <h2><span data-l="en">What the Thing can do</span><span data-l="sk">Čo Vec dokáže</span></h2>
+    <p class="prose lede"><span data-l="en">To judge the ending you need the rules. Some the film shows on screen, some the characters only believe, and some come from fans. The badge on each card says which.</span><span data-l="sk">Aby sa dal posúdiť záver, treba poznať pravidlá. Niektoré film ukáže priamo, niektorým postavy len veria a niektoré pochádzajú od fanúšikov. Štítok na každej karte hovorí, o ktorý prípad ide.</span></p>
+  </div>
+  <div class="rules">
+    <div class="rule"><span class="badge b-shown"><span data-l="en">Shown on screen</span><span data-l="sk">Ukázané vo filme</span></span><h3><span data-l="en">It copies perfectly</span><span data-l="sk">Kopíruje dokonale</span></h3><p><span data-l="en">Norris and Palmer live among the others as normal men until the moment they are exposed.</span><span data-l="sk">Norris a Palmer žijú medzi ostatnými ako normálni muži až do chvíle odhalenia.</span></p><span class="tc">TC 01:15:19 · 01:22:56</span></div>
+    <div class="rule"><span class="badge b-shown"><span data-l="en">Shown on screen</span><span data-l="sk">Ukázané vo filme</span></span><h3><span data-l="en">It needs a minute</span><span data-l="sk">Potrebuje chvíľu</span></h3><p><span data-l="en">Bennings is alone in the storeroom for about 75 seconds of film. When Windows walks in, the copy is half done.</span><span data-l="sk">Bennings je v sklade sám asi 75 sekúnd filmu. Keď vojde Windows, kópia je hotová napoly.</span></p><span class="tc">TC 00:45:16 → 00:46:52</span></div>
+    <div class="rule"><span class="badge b-shown"><span data-l="en">Shown on screen</span><span data-l="sk">Ukázané vo filme</span></span><h3><span data-l="en">Every piece is alive</span><span data-l="sk">Každý kúsok žije</span></h3><p><span data-l="en">Norris' severed head grows legs and walks off. A drop of Palmer's blood leaps away from a hot wire.</span><span data-l="sk">Norrisovej odseknutej hlave narastú nohy a odkráča. Kvapka Palmerovej krvi uskočí pred horúcim drôtom.</span></p><span class="tc">TC 01:16:50 · 01:22:56</span></div>
+    <div class="rule"><span class="badge b-shown"><span data-l="en">Shown on screen</span><span data-l="sk">Ukázané vo filme</span></span><h3><span data-l="en">Fire kills it</span><span data-l="sk">Oheň ju zabije</span></h3><p><span data-l="en">Every confirmed Thing dies by flamethrower or dynamite, screaming.</span><span data-l="sk">Každá potvrdená Vec zahynie plameňometom alebo dynamitom, so škrekom.</span></p><span class="tc">TC 00:32:22 → 01:38:38</span></div>
+    <div class="rule"><span class="badge b-shown"><span data-l="en">Shown on screen</span><span data-l="sk">Ukázané vo filme</span></span><h3><span data-l="en">It tears through clothes</span><span data-l="sk">Roztrhá oblečenie</span></h3><p><span data-l="en">Bennings' vest lies shredded on a chair while the Bennings-Thing runs outside in someone else's parka. “I think it rips through your clothes when it takes you over.”</span><span data-l="sk">Benningsova vesta leží roztrhaná na stoličke a Bennings-Vec uteká von v cudzej parke. „Myslím, že ti pri tom roztrhá oblečenie.“</span></p><span class="tc">TC 00:46:36 · 01:03:34</span></div>
+    <div class="rule"><span class="badge b-shown"><span data-l="en">Shown on screen</span><span data-l="sk">Ukázané vo filme</span></span><h3><span data-l="en">A copy breathes too</span><span data-l="sk">Aj kópia dýcha</span></h3><p><span data-l="en">The Bennings-Thing exhales a big cloud of vapour in the cold. Visible breath proves nothing.</span><span data-l="sk">Bennings-Vec vydýchne v mraze veľký oblak pary. Viditeľný dych nič nedokazuje.</span></p><span class="tc">TC 00:48:00.920</span></div>
+    <div class="rule"><span class="badge b-claim"><span data-l="en">Characters' claim</span><span data-l="sk">Tvrdenie postáv</span></span><h3><span data-l="en">It needs you alone</span><span data-l="sk">Potrebuje ťa samého</span></h3><p><span data-l="en">Blair's notes: “It needs to be alone and in close proximity with a life form.” Mostly true, yet Palmer takes Windows in front of everyone.</span><span data-l="sk">Blairove poznámky: „Potrebuje byť sama a nablízku živého tvora.“ Väčšinou to platí, no Palmer napadne Windowsa pred všetkými.</span></p><span class="tc">TC 00:46:05 · 01:23:37</span></div>
+    <div class="rule"><span class="badge b-fan"><span data-l="en">Fan theory</span><span data-l="sk">Fanúšikovská teória</span></span><h3><span data-l="en">It can't copy metal</span><span data-l="sk">Kov nenapodobní</span></h3><p><span data-l="en">The idea that a copy loses earrings and fillings comes from the 2011 prequel. The 1982 film never says so.</span><span data-l="sk">Predstava, že kópia stratí náušnice a plomby, pochádza z prequelu z roku 2011. Film z 1982 nič také nehovorí.</span></p><span class="tc">— </span></div>
+  </div>
+</div></section>
+
+<!-- ================= 4 OUTPOST: MAP + LANES ================= -->
+<section class="ch wrap" id="outpost"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 4 · Who was where</span><span data-l="sk">Kapitola 4 · Kto bol kde</span></span>
+    <h2><span data-l="en">Outpost 31 from above</span><span data-l="sk">Stanica 31 zhora</span></h2>
+    <p class="prose lede"><span data-l="en">Every infection needs a moment alone. Play the film and watch the twelve men move through the station. Find the gaps where nobody can see someone.</span><span data-l="sk">Každá nákaza potrebuje chvíľu osamote. Pusti film a sleduj, ako sa dvanásti muži pohybujú stanicou. Hľadaj medzery, keď niekoho nikto nevidí.</span></p>
+  </div>
+
+  <div class="viz-panel" id="vizpanel">
+    <div class="mapbox" id="mapbox">
+      <svg id="map" viewBox="0 0 1000 640" role="img" aria-labelledby="map-title">
+        <title id="map-title">Schematic top-down map of Outpost 31 with a dot for each character</title>
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(143,216,255,.06)" stroke-width="1"/></pattern>
+          <radialGradient id="fogGrad" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="rgba(157,178,195,.16)"/><stop offset="1" stop-color="rgba(157,178,195,.02)"/></radialGradient>
+          <filter id="blur3"><feGaussianBlur stdDeviation="1.2"/></filter>
+        </defs>
+        <rect width="1000" height="640" fill="#060c13"/>
+        <rect width="1000" height="640" fill="url(#grid)"/>
+        <!-- far away -->
+        <g>
+          <text class="zone-label" x="40" y="24"><tspan data-l="en">Far from base · by helicopter</tspan><tspan data-l="sk">Ďaleko od stanice · vrtuľníkom</tspan></text>
+          <rect class="room" data-node="glacier" x="40" y="34" width="200" height="64" rx="3"/>
+          <text class="room-label" x="48" y="50"><tspan data-l="en">Glacier</tspan><tspan data-l="sk">Ľadovec</tspan></text>
+          <rect class="room" data-node="norway" x="260" y="34" width="260" height="64" rx="3"/>
+          <text class="room-label" x="268" y="50"><tspan data-l="en">Norwegian camp</tspan><tspan data-l="sk">Nórsky tábor</tspan></text>
+          <rect class="room" data-node="crater" x="540" y="34" width="260" height="64" rx="3"/>
+          <text class="room-label" x="548" y="50"><tspan data-l="en">Crater with the ship</tspan><tspan data-l="sk">Kráter s loďou</tspan></text>
+        </g>
+        <!-- outside structures -->
+        <path class="path" d="M300 250 C230 240 200 215 165 205"/>
+        <rect class="room" data-node="shack" x="70" y="150" width="96" height="78" rx="3"/>
+        <text class="room-label" x="78" y="166"><tspan data-l="en">MacReady's shack</tspan><tspan data-l="sk">MacReadyho chatrč</tspan></text>
+        <text class="annot-ice" x="190" y="236"><tspan data-l="en">guide rope</tspan><tspan data-l="sk">vodiace lano</tspan></text>
+        <path class="path" d="M300 380 C250 380 220 370 170 365"/>
+        <rect class="room" data-node="toolshed" x="70" y="320" width="100" height="80" rx="3"/>
+        <text class="room-label" x="78" y="336"><tspan data-l="en">Toolshed</tspan><tspan data-l="sk">Kôlňa</tspan></text>
+        <path class="path" d="M120 400 L120 430"/>
+        <rect class="room" data-node="tunnel" x="56" y="430" width="128" height="58" rx="3" stroke-dasharray="3 3"/>
+        <text class="room-label" x="64" y="446"><tspan data-l="en">Tunnel · Blair's ship</tspan><tspan data-l="sk">Tunel · Blairova loď</tspan></text>
+        <!-- main building -->
+        <g id="building">
+          <text class="big-label" x="304" y="152"><tspan data-l="en">Main building</tspan><tspan data-l="sk">Hlavná budova</tspan></text>
+          <rect class="room" data-node="radio" x="300" y="160" width="90" height="90"/>
+          <text class="room-label" x="306" y="175"><tspan data-l="en">Radio</tspan><tspan data-l="sk">Rádio</tspan></text>
+          <rect class="room" data-node="office" x="390" y="160" width="90" height="90"/>
+          <text class="room-label" x="396" y="175"><tspan data-l="en">Garry's office</tspan><tspan data-l="sk">Garryho kancel.</tspan></text>
+          <rect class="room" data-node="lab" x="480" y="160" width="140" height="90"/>
+          <text class="room-label" x="486" y="175"><tspan data-l="en">Lab</tspan><tspan data-l="sk">Laboratórium</tspan></text>
+          <rect class="room" data-node="store" x="620" y="160" width="140" height="90"/>
+          <text class="room-label" x="626" y="175"><tspan data-l="en">Storeroom</tspan><tspan data-l="sk">Sklad</tspan></text>
+          <rect class="room" data-node="quarters" x="300" y="250" width="120" height="110"/>
+          <text class="room-label" x="306" y="265"><tspan data-l="en">Quarters</tspan><tspan data-l="sk">Izby</tspan></text>
+          <rect class="room" data-node="rec" x="420" y="250" width="220" height="110"/>
+          <text class="room-label" x="426" y="265"><tspan data-l="en">Rec room</tspan><tspan data-l="sk">Rekreačka</tspan></text>
+          <rect class="room" data-node="kitchen" x="640" y="250" width="120" height="110"/>
+          <text class="room-label" x="646" y="265"><tspan data-l="en">Kitchen</tspan><tspan data-l="sk">Kuchyňa</tspan></text>
+          <rect class="room" data-node="infirmary" x="300" y="360" width="120" height="110"/>
+          <text class="room-label" x="306" y="375"><tspan data-l="en">Infirmary</tspan><tspan data-l="sk">Ošetrovňa</tspan></text>
+          <rect class="room" data-node="entrance" x="420" y="360" width="110" height="110"/>
+          <text class="room-label" x="426" y="375"><tspan data-l="en">Coat room</tspan><tspan data-l="sk">Šatňa</tspan></text>
+          <rect class="room" data-node="corridor" x="530" y="360" width="110" height="110"/>
+          <text class="room-label" x="536" y="375"><tspan data-l="en">Corridors</tspan><tspan data-l="sk">Chodby</tspan></text>
+          <rect class="room" data-node="kennel" x="640" y="360" width="120" height="110"/>
+          <text class="room-label" x="646" y="375"><tspan data-l="en">Kennel</tspan><tspan data-l="sk">Psinec</tspan></text>
+          <rect class="room" data-node="under" x="330" y="490" width="400" height="58" rx="2" stroke-dasharray="5 4"/>
+          <text class="room-label" x="338" y="506"><tspan data-l="en">Level −1 · generator · old storage</tspan><tspan data-l="sk">Podzemie · generátor · starý sklad</tspan></text>
+        </g>
+        <path class="path" d="M475 470 L475 488"/>
+        <text class="annot-ice" x="482" y="482"><tspan data-l="en">main entrance</tspan><tspan data-l="sk">hlavný vchod</tspan></text>
+        <rect class="room" data-node="yard" x="250" y="560" width="560" height="70" rx="3" stroke-dasharray="2 4"/>
+        <text class="room-label" x="258" y="576"><tspan data-l="en">Outside · yard · fire pit</tspan><tspan data-l="sk">Vonku · dvor · ohnisko</tspan></text>
+        <circle class="room" data-node="helipad" cx="820" cy="520" r="34"/>
+        <text class="room-label" x="800" y="524">H</text>
+        <!-- fog + dead -->
+        <rect class="fog" x="860" y="34" width="126" height="420" rx="6"/>
+        <text class="zone-label" x="872" y="56"><tspan data-l="en">Off screen</tspan><tspan data-l="sk">Mimo obraz</tspan></text>
+        <text class="room-label" x="872" y="70"><tspan data-l="en">whereabouts unknown</tspan><tspan data-l="sk">poloha neznáma</tspan></text>
+        <g class="deadlist" id="deadlist">
+          <text class="zone-label" x="872" y="488" style="fill:var(--blood)">✝ <tspan data-l="en">Dead</tspan><tspan data-l="sk">Mŕtvi</tspan></text>
+        </g>
+        <g id="dots"></g>
+      </svg>
+    </div>
+
+    <div class="controls">
+      <button class="play" type="button" id="play" aria-label="Play"><span id="playicon">▶</span></button>
+      <div class="clock" id="clock">00:00:00<small data-l="en">film time</small><small data-l="sk">čas filmu</small></div>
+      <input type="range" id="scrub" min="0" max="6127" step="1" value="350" aria-label="Film time">
+      <div class="speed" role="group" aria-label="Speed">
+        <button type="button" id="sp1" data-speed="30" aria-pressed="true">1×</button>
+        <button type="button" id="sp2" data-speed="80" aria-pressed="false">3×</button>
+        <button type="button" id="hind" class="toggle" aria-pressed="false"><span data-l="en">Hindsight</span><span data-l="sk">S odstupom</span></button>
+      </div>
+      <div class="caption"><span class="ev" id="evtext"></span><span class="where" id="evtime"></span></div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="legend">
+      <span><i style="background:var(--ice)"></i><span data-l="en">on screen</span><span data-l="sk">v zábere</span></span>
+      <span><i style="border:2px solid var(--ice);background:transparent"></i><span data-l="en">place named in dialogue</span><span data-l="sk">miesto uvádza dialóg</span></span>
+      <span><i style="background:var(--frost);opacity:.5"></i><span data-l="en">nobody knows</span><span data-l="sk">nikto nevie</span></span>
+      <span><i style="box-shadow:0 0 0 3px var(--snow) inset;background:transparent"></i><span data-l="en">face detected this second</span><span data-l="sk">tvár rozpoznaná v tejto sekunde</span></span>
+      <span><i style="border:2px solid var(--blood);background:transparent"></i><span data-l="en">revealed as a Thing</span><span data-l="sk">odhalená Vec</span></span>
+    </div>
+
+    <h3 style="margin-top:var(--s4)"><span data-l="en">Who was where, when</span><span data-l="sk">Kto bol kedy kde</span></h3>
+    <p class="muted small prose" style="margin:.4rem 0 0"><span data-l="en">The whole film on one strip per man. Bright bars: on screen. Faint bars: somewhere named. Hatching: nobody knows. Thin white ticks: his face was found by face detection. Click anywhere to move the map.</span><span data-l="sk">Celý film, jeden pás na muža. Jasné pruhy: v zábere. Bledé: na známom mieste. Šrafovanie: nikto nevie. Tenké biele čiarky: jeho tvár našlo automatické rozpoznávanie. Kliknutím presunieš mapu.</span></p>
+    <div class="lanes-scroll"><svg id="lanes" viewBox="0 0 1000 400" role="img" aria-label="Swimlane timeline of all twelve characters"></svg></div>
+  </div>
+  <div class="gapnote">
+  <figure class="still"><img src="img/figure.jpg" alt="A dark hooded figure carrying a flamethrower walks past the lit main entrance" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:29:53.179</span><span data-l="en">Inside Childs' gap: a hooded figure with a flamethrower at the main entrance. The face is never shown. Seconds later Nauls says he saw Childs outside.</span><span data-l="sk">Uprostred Childsovej medzery: postava v kapucni s plameňometom pri hlavnom vchode. Tvár nikdy nevidno. O pár sekúnd Nauls povie, že vonku videl Childsa.</span></figcaption></figure>
+  <p class="note"><span data-l="en"><b>Look at Childs' strip near the end.</b> After his blood test he is left alone at the entrance, and the film does not show him for 12 minutes 45 seconds. In story time that is hours: the trip to Blair's shed, the blackout, the destruction of the camp. Nobody else after the test is unseen for so long. The window starts at his post, not when Nauls glimpses a figure outside.</span><span data-l="sk"><b>Pozri sa na Childsov pás pri konci.</b> Po krvnom teste zostane sám pri vchode a film ho 12 minút a 45 sekúnd neukáže. V príbehu sú to hodiny: výprava ku Blairovej kôlni, výpadok prúdu a zničenie tábora. Nikoho iného po teste film nestratí z dohľadu na tak dlho. Okno začína už na stráži, nie až vtedy, keď Nauls vonku zazrie postavu.</span></p>
+  </div>
+</div></section>
+
+<!-- ================= 5 ENDING ================= -->
+<section class="ch wrap" id="ending"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 5 · The last five minutes</span><span data-l="sk">Kapitola 5 · Posledných päť minút</span></span>
+    <h2><span data-l="en">Two men, one bottle</span><span data-l="sk">Dvaja muži, jedna fľaša</span></h2>
+  </div>
+  <figure class="still bleed"><img src="img/ending-wide.jpg" alt="Childs, holding a flamethrower, stands in the dark beside the burning ruins; MacReady sits in the foreground" loading="lazy" width="1600" height="680">
+    <figcaption class="wrap"><span class="tc">TC 01:40:02.038 · f143905</span><span data-l="en">Childs walks out of the dark with a flamethrower. MacReady has a bottle. Brightened for visibility.</span><span data-l="sk">Childs vyjde z tmy s plameňometom. MacReady má fľašu. Zosvetlené kvôli viditeľnosti.</span></figcaption></figure>
+  <div class="split" style="margin-top:var(--s4)">
+    <div class="prose">
+      <p class="lede"><span data-l="en">MacReady has blown up the last monster and most of the station with it. He sits down in the snow to wait for the cold. Then Childs appears. He says he went out after Blair and got lost in the storm. Neither man can test the other, and both are armed.</span><span data-l="sk">MacReady vyhodil do vzduchu posledné monštrum a s ním väčšinu stanice. Sadne si do snehu a čaká na mráz. Vtedy sa objaví Childs. Vraví, že išiel za Blairom a stratil sa v búrke. Ani jeden nemôže toho druhého otestovať a obaja sú ozbrojení.</span></p>
+    </div>
+    <div class="script" aria-label="Final dialogue">
+      <div class="line"><span class="tc">01:40:00.912</span><div><span class="who">Childs</span><span class="orig">You the only one who made it?</span><span class="tr" data-l="sk"> Si jediný, kto to prežil?</span></div></div>
+      <div class="line"><span class="tc">01:40:03.956</span><div><span class="who">MacReady</span><span class="orig">Not the only one.</span><span class="tr" data-l="sk"> Nie jediný.</span></div></div>
+      <div class="line"><span class="tc">01:40:07.752</span><div><span class="who">Childs</span><span class="orig">Did you kill it?</span><span class="tr" data-l="sk"> Zabil si to?</span></div></div>
+      <div class="line"><span class="tc">01:40:10.588</span><div><span class="who">MacReady</span><span class="orig">Where were you, Childs?</span><span class="tr" data-l="sk"> Kde si bol, Childs?</span></div></div>
+      <div class="line"><span class="tc">01:40:14.175</span><div><span class="who">Childs</span><span class="orig">Thought I saw Blair. I went out after him and got lost in the storm.</span><span class="tr" data-l="sk"> Zdalo sa mi, že vidím Blaira. Išiel som za ním a stratil som sa v búrke.</span></div></div>
+      <div class="line"><span class="tc">01:40:31.567</span><div><span class="who">MacReady</span><span class="orig">Fire's got the temperature up all over the camp. Won't last long, though.</span><span class="tr" data-l="sk"> Oheň zohrial celý tábor. Dlho to však nevydrží.</span></div></div>
+      <div class="line"><span class="tc">01:40:40.076</span><div><span class="who">Childs</span><span class="orig">Neither will we.</span><span class="tr" data-l="sk"> Ani my.</span></div></div>
+      <div class="line"><span class="tc">01:40:43.788</span><div><span class="who">Childs</span><span class="orig">How will we make it?</span><span class="tr" data-l="sk"> Ako to zvládneme?</span></div></div>
+      <div class="line"><span class="tc">01:40:47.959</span><div><span class="who">MacReady</span><span class="orig">Maybe we shouldn't.</span><span class="tr" data-l="sk"> Možno by sme nemali.</span></div></div>
+      <div class="line"><span class="tc">01:40:54.632</span><div><span class="who">Childs</span><span class="orig">If you're worried about me…</span><span class="tr" data-l="sk"> Ak sa bojíš mňa…</span></div></div>
+      <div class="line"><span class="tc">01:40:56.259</span><div><span class="who">MacReady</span><span class="orig">If we've got any surprises for each other, I don't think we're in much shape to do anything about it.</span><span class="tr" data-l="sk"> Ak si jeden pre druhého chystáme prekvapenie, nie sme v stave s tým niečo urobiť.</span></div></div>
+      <div class="line"><span class="tc">01:41:08.479</span><div><span class="who">Childs</span><span class="orig">Well… what do we do?</span><span class="tr" data-l="sk"> Tak… čo urobíme?</span></div></div>
+      <div class="line"><span class="tc">01:41:13.609</span><div><span class="who">MacReady</span><span class="orig">Why don't we just… wait here for a little while? See what happens.</span><span class="tr" data-l="sk"> Čo keby sme tu chvíľu… počkali? Uvidíme, čo sa stane.</span></div></div>
+      <div class="line act"><span class="tc">01:41:47.018</span><div><span class="orig">[ both chuckle ]</span><span class="tr" data-l="sk"> [ obaja sa zasmejú ]</span></div></div>
+    </div>
+  </div>
+  <div class="watch">
+    <div><span class="tc">01:39:52.987</span><p><span data-l="en">Childs is first visible, entering from the left, out of focus. MacReady turns only 2.5 seconds later.</span><span data-l="sk">Childs je prvýkrát vidieť, ako vchádza zľava, neostrý. MacReady sa otočí až o 2,5 sekundy.</span></p></div>
+    <div><span class="tc">01:40:40 → 01:41:24</span><p><span data-l="en">MacReady's breath billows in the firelight. Childs' breath does not show.</span><span data-l="sk">MacReadymu sa v svetle ohňa valí para z úst. Childsovi para nie je vidieť.</span></p></div>
+    <div><span class="tc">01:40:53 → 01:41:44</span><p><span data-l="en">Childs' parka looks pale. Before he vanished it was dark blue.</span><span data-l="sk">Childsova parka pôsobí svetlo. Predtým, ako zmizol, bola tmavomodrá.</span></p></div>
+    <div><span class="tc">01:41:39 → 01:41:47</span><p><span data-l="en">Childs drinks from MacReady's bottle. MacReady laughs only after he has drunk.</span><span data-l="sk">Childs sa napije z MacReadyho fľaše. MacReady sa zasmeje až potom.</span></p></div>
+  </div>
+  <p class="note"><span data-l="en">Each of these four details has become a theory. The next chapter tests them one by one.</span><span data-l="sk">Z každého z týchto štyroch detailov sa stala teória. Ďalšia kapitola ich preverí jednu po druhej.</span></p>
+</div></section>
+
+<!-- ================= 6 MYTH LAB ================= -->
+<section class="ch wrap" id="myths"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 6 · The myth lab</span><span data-l="sk">Kapitola 6 · Laboratórium mýtov</span></span>
+    <h2><span data-l="en">Five ways to spot a Thing</span><span data-l="sk">Päť spôsobov, ako odhaliť Vec</span></h2>
+    <p class="prose lede"><span data-l="en">Fans have proposed many tests for the final scene. We put the five most popular ones against the whole film, frame by frame.</span><span data-l="sk">Fanúšikovia vymysleli pre záver množstvo testov. Päť najznámejších sme porovnali s celým filmom, snímku po snímke.</span></p>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Myths">
+    <button type="button" role="tab" id="tab-breath" aria-controls="m-breath" aria-selected="true"><span data-l="en">Breath</span><span data-l="sk">Dych</span></button>
+    <button type="button" role="tab" id="tab-eyes" aria-controls="m-eyes" aria-selected="false"><span data-l="en">Eyes</span><span data-l="sk">Oči</span></button>
+    <button type="button" role="tab" id="tab-bottle" aria-controls="m-bottle" aria-selected="false"><span data-l="en">Bottle</span><span data-l="sk">Fľaša</span></button>
+    <button type="button" role="tab" id="tab-earring" aria-controls="m-earring" aria-selected="false"><span data-l="en">Earring</span><span data-l="sk">Náušnica</span></button>
+    <button type="button" role="tab" id="tab-jacket" aria-controls="m-jacket" aria-selected="false"><span data-l="en">Jacket</span><span data-l="sk">Bunda</span></button>
+  </div>
+
+  <div class="myth" role="tabpanel" id="m-breath" aria-labelledby="tab-breath">
+    <div>
+      <p class="claim"><span data-l="en">Childs has no breath, so he is not human</span><span data-l="sk">Childs nedýcha, takže nie je človek</span></p>
+      <h4><span data-l="en">The test</span><span data-l="sk">Test</span></h4>
+      <p><span data-l="en">If breath vapour marks a human, a known Thing should show none. The Bennings-Thing exhales a large cloud on every frame from 00:48:00.920 to 00:48:02.129. In the opening scenes, nobody's breath shows, not even men who are certainly human.</span><span data-l="sk">Ak by para z úst značila človeka, potvrdená Vec by ju mať nemala. Bennings-Vec vydychuje veľký oblak na každej snímke od 00:48:00.920 po 00:48:02.129. V úvodných scénach nevidno paru nikomu, ani mužom, ktorí sú určite ľudia.</span></p>
+      <h4><span data-l="en">In the ending</span><span data-l="sk">V závere</span></h4>
+      <p><span data-l="en">MacReady's breath shows because the fire is behind him and lights it up. Behind Childs' mouth the background is dark in every shot. Keith David put it the same way in 2024: “if I'm downstage of the fire you wouldn't see steam coming from my mouth.”</span><span data-l="sk">MacReadyho para je vidieť, lebo oheň je za ním a presvieti ju. Za Childsovými ústami je vo všetkých záberoch tmavé pozadie. Keith David to v roku 2024 vysvetlil rovnako: „ak stojím na strane ohňa bližšie ku kamere, paru z úst nevidno.“</span></p>
+      <span class="stamp no"><span data-l="en">Not a test</span><span data-l="sk">Nie je to test</span></span>
+    </div>
+    <div class="gallery">
+      <figure class="still"><img src="img/mac-breath.jpg" alt="MacReady exhaling a thick cloud of vapour, backlit by fire" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:40:42.078</span><span data-l="en">MacReady, backlit by fire. Brightened.</span><span data-l="sk">MacReady v protisvetle ohňa. Zosvetlené.</span></figcaption></figure>
+      <figure class="still"><img src="img/bennings-breath.jpg" alt="The Bennings-Thing in the snow exhaling vapour, its hands deformed" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 00:48:01.629</span><span data-l="en">A confirmed Thing, breathing visibly.</span><span data-l="sk">Potvrdená Vec, viditeľne dýcha.</span></figcaption></figure>
+    </div>
+  </div>
+
+  <div class="myth" role="tabpanel" id="m-eyes" aria-labelledby="tab-eyes" hidden>
+    <div>
+      <p class="claim"><span data-l="en">Humans have a glint in their eyes, Things don't</span><span data-l="sk">Ľudia majú v očiach iskru, Veci nie</span></p>
+      <h4><span data-l="en">Where it comes from</span><span data-l="sk">Odkiaľ to je</span></h4>
+      <p><span data-l="en">Cinematographer Dean Cundey said he kept the light out of the eyes of the man under suspicion during the blood test. That man is Palmer. A podcast host later joked that Childs has no glint at the end, and admitted in 2024 that it was a joke.</span><span data-l="sk">Kameraman Dean Cundey povedal, že pri krvnom teste nesvietil do očí mužovi, ktorého podozrievali. Je to Palmer. Moderátor podcastu neskôr zažartoval, že Childs nemá na konci v očiach iskru, a v roku 2024 priznal, že to bol vtip.</span></p>
+      <h4><span data-l="en">What the frames show</span><span data-l="sk">Čo ukazujú snímky</span></h4>
+      <p><span data-l="en">Face detection ran on all 156,182 frames. Palmer, already a Thing, has bright catchlights at 01:19:19 and none in the two close-ups just before his test. That matches Cundey exactly, and only for that scene. In the ending both men's eyes are mostly dark, because the light is low and comes from the fire.</span><span data-l="sk">Rozpoznávanie tvárí prešlo všetkých 156 182 snímok. Palmer, už ako Vec, má v 01:19:19 jasné odlesky a v dvoch detailoch tesne pred testom žiadne. Presne to opísal Cundey, a len v tejto scéne. V závere majú obaja oči väčšinou tmavé, lebo svetla je málo a ide z ohňa.</span></p>
+      <span class="stamp open"><span data-l="en">One scene only</span><span data-l="sk">Len v jednej scéne</span></span>
+    </div>
+    <div class="gallery">
+      <figure class="still"><img src="img/palmer-eyes.jpg" alt="Three close-ups of Palmer's eyes: bright catchlights in the first, none in the second and third" loading="lazy" width="1800" height="245"><figcaption><span class="tc">TC 01:19:19.213 · 01:21:08.197 · 01:22:43.584</span><span data-l="en">Palmer during the blood test. Glint, then none.</span><span data-l="sk">Palmer počas krvného testu. Iskra, potom žiadna.</span></figcaption></figure>
+      <figure class="still"><img src="img/dish.jpg" alt="The blood test: a Petri dish labelled CHILDS" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:25:34.045</span><span data-l="en">Childs' own test. The dish is labelled, but when the hot wire goes in we see it from the side.</span><span data-l="sk">Test samotného Childsa. Miska má štítok, no keď do nej vojde horúci drôt, vidíme ju z boku.</span></figcaption></figure>
+    </div>
+  </div>
+
+  <div class="myth" role="tabpanel" id="m-bottle" aria-labelledby="tab-bottle" hidden>
+    <div>
+      <p class="claim"><span data-l="en">The bottle is gasoline and Childs doesn't notice</span><span data-l="sk">Vo fľaši je benzín a Childs si to nevšimne</span></p>
+      <h4><span data-l="en">The test</span><span data-l="sk">Test</span></h4>
+      <p><span data-l="en">Earlier, MacReady and Nauls carry Molotov cocktails. If the final bottle were one of them, it would look like them. They are green, have no label, and have a rag stuffed in the neck. MacReady walks out of the ruins holding a bottle with a pale label and red lettering, the kind of whisky bottle he drinks from all film. There is no rag.</span><span data-l="sk">MacReady a Nauls predtým nesú Molotovove koktaily. Keby bola záverečná fľaša jedným z nich, vyzerala by ako oni. Tie sú zelené, bez etikety a s handrou v hrdle. MacReady vychádza z trosiek s fľašou so svetlou etiketou a červeným písmom, presne takou, z akej pije celý film. Handra v nej nie je.</span></p>
+      <p><span data-l="en">Keith David: “We were both drinking out of the same bottle.” Nothing on screen tells us what is inside.</span><span data-l="sk">Keith David: „Obaja sme pili z tej istej fľaše.“ Čo je vnútri, obraz nepovie.</span></p>
+      <p><span data-l="en">The bottle can matter in another way, through Fuchs' “small particle” rule. That only works if MacReady is already a Thing. See <a href="#trail">Round two</a>.</span><span data-l="sk">Fľaša môže hrať rolu inak, cez Fuchsovo pravidlo o „malej čiastočke“. To však funguje, len ak je MacReady už Vec. Pozri <a href="#trail">Druhé kolo</a>.</span></p>
+      <span class="stamp no"><span data-l="en">No evidence</span><span data-l="sk">Bez dôkazu</span></span>
+    </div>
+    <div class="gallery two">
+      <figure class="still"><img src="img/mac-bottle.jpg" alt="MacReady's hand holding a bottle with a pale label and red letters" loading="lazy" width="520" height="600"><figcaption><span class="tc">TC 01:39:38.347</span><span data-l="en">Pale label, red letters. Brightened.</span><span data-l="sk">Svetlá etiketa, červené písmo. Zosvetlené.</span></figcaption></figure>
+      <figure class="still"><img src="img/childs-bottle.jpg" alt="Childs tilting the bottle to drink, its base towards the camera" loading="lazy" width="900" height="600"><figcaption><span class="tc">TC 01:41:40.678</span><span data-l="en">Childs drinks. No reaction.</span><span data-l="sk">Childs pije. Bez reakcie.</span></figcaption></figure>
+      <figure class="still" style="grid-column:1/-1"><img src="img/molotov.jpg" alt="Two green Molotov cocktail bottles with rags beside a lantern and a detonator" loading="lazy" width="1200" height="510"><figcaption><span class="tc">TC 01:37:45.200</span><span data-l="en">The real Molotovs: green glass, rags, no label.</span><span data-l="sk">Skutočné Molotovove koktaily: zelené sklo, handry, bez etikety.</span></figcaption></figure>
+    </div>
+  </div>
+
+  <div class="myth" role="tabpanel" id="m-earring" aria-labelledby="tab-earring" hidden>
+    <div>
+      <p class="claim"><span data-l="en">Childs' earring is gone at the end</span><span data-l="sk">Childs nemá na konci náušnicu</span></p>
+      <h4><span data-l="en">The test</span><span data-l="sk">Test</span></h4>
+      <p><span data-l="en">We followed Childs' ears through the whole film. He wears a small metal hoop in his right ear at 00:11:57, 00:58:44, 01:12:29 and 01:26:19. In the final scene, in profile, it catches the firelight on his right earlobe.</span><span data-l="sk">Childsove uši sme sledovali celý film. Malý kovový krúžok má v pravom uchu v 00:11:57, 00:58:44, 01:12:29 aj 01:26:19. V záverečnej scéne sa v profile na jeho pravom laloku zablysne vo svetle ohňa.</span></p>
+      <p><span data-l="en">The rule behind the theory, that a copy cannot reproduce metal, comes from the 2011 prequel. A copy that dresses itself could put an earring back in, too.</span><span data-l="sk">Pravidlo, na ktorom teória stojí (kópia nevie napodobniť kov), pochádza z prequelu z roku 2011. Kópia, ktorá sa sama oblieka, by si náušnicu vedela aj nasadiť.</span></p>
+      <span class="stamp yes"><span data-l="en">It's there</span><span data-l="sk">Je tam</span></span>
+    </div>
+    <div class="gallery">
+      <figure class="still"><img src="img/earring-end.jpg" alt="Close-up of Childs' right ear in the final scene with a small bright earring" loading="lazy" width="1000" height="405"><figcaption><span class="tc">TC 01:40:32.777 · 01:40:34.487</span><span data-l="en">The final scene, right ear, 3× zoom. Brightened.</span><span data-l="sk">Záverečná scéna, pravé ucho, 3× priblížené. Zosvetlené.</span></figcaption></figure>
+      <figure class="still"><img src="img/earring-early.jpg" alt="Close-up of Childs' right ear early in the film with a hanging earring" loading="lazy" width="800" height="750" style="max-width:420px"><figcaption><span class="tc">TC 00:11:58.343</span><span data-l="en">The same ear, ninety minutes earlier.</span><span data-l="sk">To isté ucho o deväťdesiat minút skôr.</span></figcaption></figure>
+    </div>
+  </div>
+
+  <div class="myth" role="tabpanel" id="m-jacket" aria-labelledby="tab-jacket" hidden>
+    <div>
+      <p class="claim"><span data-l="en">Childs comes back in a different coat</span><span data-l="sk">Childs sa vráti v inej bunde</span></p>
+      <h4><span data-l="en">Why it is tempting</span><span data-l="sk">Prečo je to lákavé</span></h4>
+      <p><span data-l="en">The film itself sets this up. The Bennings-Thing runs outside in someone else's parka while Bennings' vest lies shredded. Childs wears dark blue in every scene of the film, then comes back from 13 minutes alone looking pale. Measured against his own face in the same frame, his jacket is 4 to 6 times brighter than before.</span><span data-l="sk">Film to sám pripraví. Bennings-Vec uteká von v cudzej parke, kým Benningsova vesta leží roztrhaná. Childs nosí v každej scéne tmavomodrú, a po 13 minútach osamote sa vráti a pôsobí svetlo. V porovnaní s vlastnou tvárou v tej istej snímke je jeho bunda 4- až 6-krát svetlejšia ako predtým.</span></p>
+      <div class="twist">
+        <h4><span data-l="en">We fell for this one too</span><span data-l="sk">Aj my sme sa nachytali</span></h4>
+        <p><span data-l="en">Our first pass called it a different, khaki coat. Then we checked how frost looks in this film. When MacReady comes in from the storm, his dark leather jacket turns pale grey under frost. Childs has frost on his eyebrows and moustache, and his coat has the same speckled texture. Firelight is orange, so white frost reads as khaki. Rob Ager, who first proposed the coat theory in 2011, reached the same conclusion in 2017, and co-producer Stuart Cohen calls it “the same coat”.</span><span data-l="sk">Prvý priechod to vyhodnotil ako inú, khaki bundu. Potom sme overili, ako vo filme vyzerá námraza. Keď MacReady príde z búrky, jeho tmavá kožená bunda pod námrazou zbledne do sivej. Childs má námrazu na obočí aj fúzoch a jeho bunda má rovnakú zrnitú textúru. Svetlo ohňa je oranžové, takže biela námraza pôsobí ako khaki. Rob Ager, ktorý teóriu o bunde prišiel v roku 2011, dospel v roku 2017 k tomu istému a koproducent Stuart Cohen hovorí o „tej istej bunde“.</span></p>
+      </div>
+      <h4><span data-l="en">Still open</span><span data-l="sk">Stále otvorené</span></h4>
+      <p><span data-l="en">One detail survives. Hanging on a hook in the coat room where Childs stood guard is a spare dark-blue parka with a fur hood. Two and a half minutes later it is gone. Several other coats moved too, and Garry and Nauls dressed there to go outside, so it may mean nothing.</span><span data-l="sk">Jeden detail obstojí. Na vešiaku v šatni, kde Childs strážil, visí náhradná tmavomodrá parka s kožušinou. O dve a pol minúty je preč. Posunuli sa však aj ďalšie bundy a Garry s Naulsom sa tam obliekali von, takže to nemusí znamenať nič.</span></p>
+      <span class="stamp no"><span data-l="en">Frost, same coat</span><span data-l="sk">Námraza, tá istá bunda</span></span>
+    </div>
+    <div class="gallery">
+      <figure class="still"><img src="img/parka-navy.jpg" alt="Childs in a dark blue parka with a fur-trimmed hood, lit by a blue window" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:27:03.134</span><span data-l="en">The last time we see Childs before he vanishes. Dark blue parka.</span><span data-l="sk">Naposledy, keď Childsa vidíme pred zmiznutím. Tmavomodrá parka.</span></figcaption></figure>
+      <figure class="still"><img src="img/parka-end.jpg" alt="Childs in the final scene; his parka looks pale grey in the firelight" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:40:53.900</span><span data-l="en">The final scene. Pale, speckled, frosted. Brightened.</span><span data-l="sk">Záverečná scéna. Svetlá, zrnitá, zamrznutá. Zosvetlené.</span></figcaption></figure>
+      <figure class="still"><img src="img/mac-frost.jpg" alt="MacReady with frost in his beard; his dark leather jacket looks pale grey" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:12:55.538</span><span data-l="en">The control: MacReady's dark leather jacket after the storm.</span><span data-l="sk">Kontrola: MacReadyho tmavá kožená bunda po búrke.</span></figcaption></figure>
+      <figure class="still"><img src="img/hooks.jpg" alt="The coat room before and after Childs leaves: a dark blue parka hangs left of the window, later an olive jacket hangs there" loading="lazy" width="1440" height="1224"><figcaption><span class="tc">TC 01:26:41.238 → 01:29:34.619</span><span data-l="en">The coat hooks before and after. The dark parka left of the window is gone.</span><span data-l="sk">Vešiaky pred a po. Tmavá parka naľavo od okna zmizla.</span></figcaption></figure>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= 7 RIDDLE ================= -->
+<section class="ch wrap" id="riddle"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 7 · The director's riddle</span><span data-l="sk">Kapitola 7 · Režisérova hádanka</span></span>
+    <h2><span data-l="en">“There is a big clue”</span><span data-l="sk">„Je tam veľká indícia“</span></h2>
+    <p class="prose lede"><span data-l="en">What John Carpenter and his crew have said about the ending, checked against the original interviews and recordings. Quotes stay in English. Some recordings were transcribed by machine.</span><span data-l="sk">Čo o závere povedal John Carpenter a jeho štáb, overené v pôvodných rozhovoroch a nahrávkach. Citáty ostávajú v angličtine. Niektoré nahrávky boli prepísané strojovo.</span></p>
+  </div>
+  <div class="timeline">
+    <div class="tl"><div class="when">1998</div><div class="who">John Carpenter · <span data-l="en">DVD commentary with Kurt Russell</span><span data-l="sk">komentár na DVD s Kurtom Russellom</span></div>
+      <blockquote>“Now we're into the final moments of the movie, which we discussed and talked about. We just didn't know.”</blockquote>
+      <div class="src"><span data-l="en">Universal Collector's Edition DVD · verified in the recording (machine transcript)</span><span data-l="sk">Universal Collector's Edition DVD · overené v nahrávke (strojový prepis)</span></div></div>
+    <div class="tl"><div class="when">2016</div><div class="who">Dean Cundey · <span data-l="en">cinematographer, Blu-ray commentary</span><span data-l="sk">kameraman, komentár na Blu-ray</span></div>
+      <blockquote>“John very deliberately wanted to leave the question as to whether one or both of these or neither of these guys were the thing.”</blockquote>
+      <div class="src"><span data-l="en">Scream Factory Collector's Edition · excerpt published 2024 · machine transcript</span><span data-l="sk">Scream Factory Collector's Edition · úryvok zverejnený 2024 · strojový prepis</span></div></div>
+    <div class="tl"><div class="when">2022</div><div class="who">John Carpenter · SYFY Wire</div>
+      <blockquote>“I know who was the Thing in the end… I know, but I'm not telling you… The gods came down and swore me to secrecy.”</blockquote>
+      <div class="src"><span data-l="en">40th-anniversary oral history · verified</span><span data-l="sk">orálna história k 40. výročiu · overené</span></div></div>
+    <div class="tl hot"><div class="when"><span data-l="en">Oct 2023</span><span data-l="sk">Okt. 2023</span></div><div class="who">John Carpenter · The Late Show with Stephen Colbert</div>
+      <blockquote>COLBERT: “Can I figure out that answer merely by watching the film?”<br>CARPENTER: “Yes, you can.”</blockquote>
+      <div class="src"><span data-l="en">CBS, segment published 27 Oct 2023 · machine transcript</span><span data-l="sk">CBS, segment zverejnený 27. 10. 2023 · strojový prepis</span></div></div>
+    <div class="tl"><div class="when"><span data-l="en">Mar 2024</span><span data-l="sk">Mar. 2024</span></div><div class="who">John Carpenter · The Guardian</div>
+      <blockquote>“They wanted to know who the Thing was – which was left up in the air. They hated that but I don't care, that's the way I wanted to end it.”</blockquote>
+      <div class="src"><span data-l="en">“How we made The Thing” · verified</span><span data-l="sk">„How we made The Thing“ · overené</span></div></div>
+    <div class="tl hot"><div class="when"><span data-l="en">Mar 2025</span><span data-l="sk">Mar. 2025</span></div><div class="who">John Carpenter · <span data-l="en">Q&amp;A with Bong Joon Ho, Academy Museum</span><span data-l="sk">diskusia s Bong Joon Hom, Academy Museum</span></div>
+      <blockquote>“Well, there's a giant hint in the middle of the film.”</blockquote>
+      <div class="src"><span data-l="en">audience recording · machine transcript</span><span data-l="sk">záznam z publika · strojový prepis</span></div></div>
+    <div class="tl hot"><div class="when"><span data-l="en">Oct 2026</span><span data-l="sk">Okt. 2026</span></div><div class="who">John Carpenter · Academy Museum Gala</div>
+      <blockquote>“It's right in the movie too. There is a big clue. No one has guessed it.”</blockquote>
+      <div class="src"><span data-l="en">The Academy on X, 18 Oct 2026 · machine transcript</span><span data-l="sk">The Academy na X, 18. 10. 2026 · strojový prepis</span></div></div>
+  </div>
+  <p class="note"><span data-l="en">He has never said what the clue is. In 1998 he said they did not know. Co-producer Stuart Cohen wrote that there was “no definite idea” of who is the Thing, and Keith David says they played the scene three ways: Childs as the Thing, MacReady as the Thing, and neither. Our best candidate for the hint is in the next chapter.</span><span data-l="sk">Čo je tou indíciou, nikdy nepovedal. V roku 1998 hovoril, že to nevedeli. Koproducent Stuart Cohen napísal, že nebola „no definite idea“, kto je Vec, a Keith David hovorí, že scénu hrali tromi spôsobmi: Childs ako Vec, MacReady ako Vec a ani jeden. Nášho najlepšieho kandidáta na nápovedu nájdeš v ďalšej kapitole.</span></p>
+</div></section>
+
+<!-- ================= 8 ROUND TWO ================= -->
+<section class="ch wrap" id="trail"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 8 · Round two</span><span data-l="sk">Kapitola 8 · Druhé kolo</span></span>
+    <h2><span data-l="en">A trail through the middle of the film</span><span data-l="sk">Stopa stredom filmu</span></h2>
+    <p class="prose lede"><span data-l="en">We handed our verdict to two rival AI models and asked them to break it. One followed a trail of torn clothes through the middle of the film and showed that we had trusted a test nobody can check. The other caught us treating a glimpse of a figure as proof. Both were right. We checked every step against the film and against the 1981 screenplay.</span><span data-l="sk">Náš verdikt sme dali dvom ďalším AI modelom s úlohou rozbiť ho. Jeden išiel po stope roztrhaného oblečenia stredom filmu a ukázal, že sme verili testu, ktorý nikto nemôže overiť. Druhý nás pristihol, že sme zahliadnutú postavu brali ako dôkaz. Obaja mali pravdu. Každý krok sme overili na filme aj v scenári z roku 1981.</span></p>
+  </div>
+
+  <ol class="trail">
+    <li class="step">
+      <div><span class="tc">00:41:04</span>
+        <h3><span data-l="en">Dirty drawers in the kitchen trash</span><span data-l="sk">Špinavé spodky v kuchynskom koši</span></h3>
+        <blockquote>“Which one of you disrespectful men been tossin' his dirty drawers in the kitchen trash can?”</blockquote>
+        <p><span data-l="en">Nauls throws a pair of torn, brown-stained long johns into the rec room. A hand takes them from beside MacReady. The film's own rule says the Thing rips through your clothes when it takes you over. So somebody has already been taken.</span><span data-l="sk">Nauls hodí do spoločenskej miestnosti roztrhané spodky s hnedými škvrnami. Vedľa MacReadyho ich vezme ruka. Podľa pravidla samotného filmu Vec pri prevzatí roztrhá oblečenie. Niekoho teda už prevzala.</span></p>
+      </div>
+      <figure class="still"><img src="img/drawers.jpg" alt="Torn, brown-stained grey long johns lying on a pinball machine next to a man in a grey thermal top" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 00:41:11.719</span><span data-l="en">Torn, stained, from the kitchen trash.</span><span data-l="sk">Roztrhané, zafúľané, z kuchynského koša.</span></figcaption></figure>
+    </li>
+    <li class="step hot">
+      <div><span class="tc">00:43:43 → 00:43:47</span>
+        <h3><span data-l="en">Alone with them</span><span data-l="sk">Sám s nimi</span></h3>
+        <p><span data-l="en">Two minutes later MacReady sits alone in his room with the same garment and a bottle of J&amp;B. He holds it to his mouth and nose, wipes his face with it and throws it away. Frame by frame, we cannot tell whether he is examining it, pulling off a name tag, or something worse.</span><span data-l="sk">O dve minúty sedí MacReady sám v izbe s tým istým odevom a fľašou J&amp;B. Drží ho pri ústach a nose, pretrie si ním tvár a zahodí ho. Ani snímka po snímke nevieme povedať, či ho skúma, strháva z neho menovku, alebo ide o niečo horšie.</span></p>
+        <p class="muted"><span data-l="en">This scene is not in the 1981 screenplay. There, MacReady just rolls the long johns up and tosses them in a bin.</span><span data-l="sk">V scenári z roku 1981 táto scéna nie je. Tam MacReady spodky len stočí a hodí do koša.</span></p>
+      </div>
+      <figure class="still"><img src="img/cloth.jpg" alt="Close-up of MacReady holding the torn garment against his mouth with both hands" loading="lazy" width="900" height="658" style="max-width:520px"><figcaption><span class="tc">TC 00:43:44.247 · 3×</span><span data-l="en">The cloth at his mouth.</span><span data-l="sk">Látka pri ústach.</span></figcaption></figure>
+    </li>
+    <li class="step">
+      <div><span class="tc">01:03:41</span>
+        <h3><span data-l="en">“The name tag was missing”</span><span data-l="sk">„Menovka chýbala“</span></h3>
+        <blockquote>“Windows found some shredded long johns but the name tag was missing. They could be anybody's.”</blockquote>
+        <p><span data-l="en">On his tape recorder MacReady says Windows found them. On screen it was Nauls, and the last man we saw with them was MacReady. The screenplay has the line as “Nauls found this yesterday.”</span><span data-l="sk">Na magnetofón MacReady povie, že ich našiel Windows. Na obraze to bol Nauls a naposledy sme ich videli u MacReadyho. V scenári je replika „Nauls found this yesterday.“</span></p>
+      </div>
+      <figure class="still"><img src="img/tape.jpg" alt="MacReady at his desk with a tape recorder, holding shredded long johns" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:03:29</span><span data-l="en">The same long johns, now evidence.</span><span data-l="sk">Tie isté spodky, teraz ako dôkaz.</span></figcaption></figure>
+    </li>
+    <li class="step text-only">
+      <div><span class="tc">01:04:50</span>
+        <h3><span data-l="en">Fuchs' rule</span><span data-l="sk">Fuchsovo pravidlo</span></h3>
+        <blockquote>“If a small particle of this thing is enough to take over an entire organism, then everyone should prepare their own meals. And I suggest we only eat out of cans.”</blockquote>
+        <p><span data-l="en">It is the only way of spreading without an attack that the film ever states, and it never shows it happening. MacReady is the last man seen with Fuchs before the lab goes dark.</span><span data-l="sk">Je to jediný spôsob šírenia bez útoku, ktorý film vysloví, a nikdy ho neukáže. MacReady je posledný, koho s Fuchsom vidíme, kým v laboratóriu zhasne.</span></p>
+      </div>
+    </li>
+    <li class="step hot">
+      <div><span class="tc">01:06:09 · 01:11:15</span>
+        <h3><span data-l="en">R.J. MacREADY</span><span data-l="sk">R.J. MacREADY</span></h3>
+        <p><span data-l="en">In the dark, Fuchs finds a torn garment stencilled with MacReady's name, and the film cuts straight to MacReady's face. Later, Nauls finds a second one stashed in the furnace of MacReady's shack.</span><span data-l="sk">V tme nájde Fuchs roztrhaný odev s MacReadyho menom a strih ide rovno na MacReadyho tvár. Neskôr nájde Nauls druhý, schovaný v peci MacReadyho chatrče.</span></p>
+        <blockquote>“Did it ever occur to the jury that anybody could've gotten some of my clothes and stuck 'em up the furnace?”</blockquote>
+        <p><span data-l="en">MacReady knows it was the furnace, though nobody tells him on screen.</span><span data-l="sk">MacReady vie, že to bola pec, hoci mu to na obraze nikto nepovie.</span></p>
+      </div>
+      <div class="gallery">
+        <figure class="still"><img src="img/tag-lab.jpg" alt="A torn garment stencilled R.J. MacREADY under red darkroom light" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:06:11.801</span><span data-l="en">Found by Fuchs.</span><span data-l="sk">Našiel Fuchs.</span></figcaption></figure>
+        <figure class="still"><img src="img/tag-furnace.jpg" alt="Hands holding a torn olive garment stencilled R.J. MACREADY" loading="lazy" width="1400" height="595"><figcaption><span class="tc">TC 01:11:21.569</span><span data-l="en">Found by Nauls, in the furnace.</span><span data-l="sk">Našiel Nauls, v peci.</span></figcaption></figure>
+      </div>
+    </li>
+    <li class="step hot text-only">
+      <div><span class="tc">01:21:37 → 01:21:56</span>
+        <h3><span data-l="en">The cut that isn't there</span><span data-l="sk">Rez, ktorý chýba</span></h3>
+        <p><span data-l="en">MacReady runs every blood test himself, including his own. The screenplay is explicit:</span><span data-l="sk">MacReady robí všetky krvné testy sám, aj ten svoj. Scenár je jednoznačný:</span></p>
+        <div class="script-quote"><b><span data-l="en">Screenplay, 4 March 1981</span><span data-l="sk">Scenár, 4. marca 1981</span></b>He cuts himself with the scalpel and begins collecting his own blood.<br>MACREADY: Now I'll show you what I already know.</div>
+        <p><span data-l="en">The film keeps the line and drops the cut. Where MacReady should draw his blood, it shows Childs watching. The dish with his name simply appears. We see Windows' thumb cut, never MacReady's. His test proves he is human only if he is human.</span><span data-l="sk">Film repliku nechá a rez vynechá. Kde si má MacReady odobrať krv, ukáže Childsa, ako sa pozerá. Miska s jeho menom sa jednoducho objaví. Windowsovi palec rozrežú na obraze, MacReadymu nikdy. Jeho test dokazuje, že je človek, len ak je človek.</span></p>
+      </div>
+      <div class="tri">
+        <figure class="still"><img src="img/draw-windows.jpg" alt="A thumb being cut over a Petri dish labelled WINDOWS" loading="lazy" width="1000" height="425"><figcaption><span class="tc">01:20:33</span><span data-l="en">A draw we see.</span><span data-l="sk">Odber, ktorý vidíme.</span></figcaption></figure>
+        <figure class="still"><img src="img/self-childs.jpg" alt="Close-up of Childs watching" loading="lazy" width="1000" height="425"><figcaption><span class="tc">01:21:44</span><span data-l="en">Where the script has MacReady's cut.</span><span data-l="sk">Kde má scenár MacReadyho rez.</span></figcaption></figure>
+        <figure class="still"><img src="img/self-dish.jpg" alt="A hot wire in a Petri dish labelled MAC READY; the blood does not react" loading="lazy" width="1000" height="425"><figcaption><span class="tc">01:21:55</span><span data-l="en">His dish. No reaction.</span><span data-l="sk">Jeho miska. Bez reakcie.</span></figcaption></figure>
+      </div>
+    </li>
+    <li class="step text-only">
+      <div><span class="tc">01:41:40</span>
+        <h3><span data-l="en">One last drink</span><span data-l="sk">Posledný dúšok</span></h3>
+        <p><span data-l="en">MacReady drank from a bottle and left it with Blair, who later turned out to be a Thing (00:55:29). At the very end he hands his bottle to Childs. Under Fuchs' rule, that is how it spreads. Carpenter, in 2022, on fan theories: “There are some hilarious ones. Everybody says, ‘Well, he took a drink, so he must be contaminated.’”</span><span data-l="sk">MacReady sa napil z fľaše a nechal ju Blairovi, ktorý sa neskôr ukázal ako Vec (00:55:29). Úplne na konci podá svoju fľašu Childsovi. Podľa Fuchsovho pravidla sa to šíri presne takto. Carpenter v roku 2022 o fanúšikovských teóriách: „There are some hilarious ones. Everybody says, ‘Well, he took a drink, so he must be contaminated.’“</span></p>
+      </div>
+    </li>
+  </ol>
+
+  <div class="finding">
+    <span class="kicker"><span data-l="en">What we found while checking</span><span data-l="sk">Čo sme našli pri overovaní</span></span>
+    <h3><span data-l="en">The two tests you cannot check</span><span data-l="sk">Dva testy, ktoré neoveríš</span></h3>
+    <p class="prose"><span data-l="en">The film shows eight blood tests. For six of them the viewer can see enough to trust the result. The two that cannot be checked belong to the only two men who survive.</span><span data-l="sk">Film ukáže osem krvných testov. Pri šiestich divák vidí dosť na to, aby výsledku veril. Dva neoveriteľné patria jediným dvom, ktorí prežijú.</span></p>
+    <div class="dishes" role="list" aria-label="The eight blood tests in the order shown">
+      <div class="dish ok" role="listitem"><span><b>WINDOWS</b><i>✓</i></span></div>
+      <div class="dish q" role="listitem"><span><b>MAC READY</b><i>?</i></span></div>
+      <div class="dish ok" role="listitem"><span><b>COPPER</b><i>✓</i></span></div>
+      <div class="dish ok" role="listitem"><span><b>CLARK</b><i>✓</i></span></div>
+      <div class="dish thing" role="listitem"><span><b>PALMER</b><i>✕</i></span></div>
+      <div class="dish ok" role="listitem"><span><b>NAULS</b><i>✓</i></span></div>
+      <div class="dish q" role="listitem"><span><b>CHILDS</b><i>?</i></span></div>
+      <div class="dish ok" role="listitem"><span><b>GARRY</b><i>✓</i></span></div>
+    </div>
+    <div class="dish-legend">
+      <span><span data-l="en">✓ result shown, no reaction</span><span data-l="sk">✓ výsledok vidno, bez reakcie</span></span>
+      <span><span data-l="en">✕ the blood leaps: a Thing</span><span data-l="sk">✕ krv vyskočí: Vec</span></span>
+      <span style="color:var(--fire)"><span data-l="en">? MacReady: the draw is never shown · Childs: the dish is seen from the side</span><span data-l="sk">? MacReady: odber film neukáže · Childs: misku vidno z boku</span></span>
+    </div>
+  </div>
+
+  <div class="duo">
+    <div>
+      <div class="who"><span data-l="en">The other reading</span><span data-l="sk">Druhý výklad</span></div>
+      <h3><span data-l="en">Or he was framed</span><span data-l="sk">Alebo ho niekto očiernil</span></h3>
+      <p><span data-l="en">The plot offers a frame-up and says so out loud. The light in MacReady's shack was on, though he had switched it off. His belongings had been moved to the storeroom, where anyone could take them. In the 1981 screenplay he studies the long johns like a detective (“Size large”) and the furnace garment is the Thing setting him up.</span><span data-l="sk">Dej ponúka očiernenie a hovorí to nahlas. V MacReadyho chatrči svietilo, hoci svetlo zhasol. Jeho veci presunuli do skladu, kde si ich mohol vziať ktokoľvek. V scenári z roku 1981 skúma spodky ako detektív („Size large“) a odev v peci je Vec, ktorá ho chce očierniť.</span></p>
+      <p><span data-l="en">And MacReady spends the whole film destroying Things, ending with the station itself. The film never shows two Things helping each other, so that is a pattern, not proof.</span><span data-l="sk">A MacReady celý film Veci ničí, nakoniec aj celú stanicu. Film nikde neukáže, že by si dve Veci pomáhali, takže je to vzorec, nie dôkaz.</span></p>
+    </div>
+    <div>
+      <div class="who"><span data-l="en">The second challenge</span><span data-l="sk">Druhá námietka</span></div>
+      <h3><span data-l="en">A figure is not a test</span><span data-l="sk">Postava nie je test</span></h3>
+      <p><span data-l="en">We had written that Childs could only have been taken after Nauls saw him outside. But a glimpse of a figure cannot show who is still human. Childs is alone from 01:27:08, at his post. The film has played this scene once before: Bennings is left alone and then found outside, still recognisable as Bennings. That time we saw the attack. This time we don't.</span><span data-l="sk">Napísali sme, že Childsa mohla Vec dostať až potom, čo ho Nauls zazrel vonku. Lenže zahliadnutá postava neukáže, kto je ešte človek. Childs je sám od 01:27:08, na stráži. Túto scénu už film raz zahral: Bennings zostane sám a potom ho nájdu vonku, stále na pohľad ako Benningsa. Vtedy sme útok videli. Teraz nie.</span></p>
+      <p><span data-l="en">The same model then checked the window at Childs' post and found that it overlooks the approach to the building. “Thought I saw Blair” fits what the film shows. Nauls saw a figure, not Blair, so Childs' story is plausible but it is only his.</span><span data-l="sk">Ten istý model potom overil okno pri Childsovej stráži: vidno z neho prístup k budove. „Thought I saw Blair“ teda sedí s tým, čo film ukáže. Nauls videl postavu, nie Blaira, takže Childsov príbeh je hodnoverný, no máme ho len od neho.</span></p>
+    </div>
+  </div>
+  <p class="note"><span data-l="en"><b>What changed:</b> MacReady is no longer “probably human”. His test does not count, and more frames point at him than at anyone else. Childs stays level. The film still proves nothing, and that may be exactly how it was cut.</span><span data-l="sk"><b>Čo sa zmenilo:</b> MacReady už nie je „pravdepodobne človek“. Jeho test sa nepočíta a ukazuje na neho viac záberov než na kohokoľvek iného. Pri Childsovi sa nič nezmenilo. Film stále nič nedokazuje a možno ho presne tak aj zostrihali.</span></p>
+</div></section>
+
+<div class="fire-band"><img src="img/camp-fire.jpg" alt="Outpost 31 exploding in flames at night" loading="lazy" width="1600" height="680">
+  <div class="over wrap"><div class="inner"><span class="tc">TC 01:38:47</span> <span class="muted small"><span data-l="en">Outpost 31 burns.</span><span data-l="sk">Stanica 31 horí.</span></span></div></div></div>
+
+<!-- ================= 8 VERDICT ================= -->
+<section class="ch wrap" id="verdict"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">Chapter 9 · The five hypotheses</span><span data-l="sk">Kapitola 9 · Päť hypotéz</span></span>
+    <h2><span data-l="en">So who is it?</span><span data-l="sk">Tak kto to je?</span></h2>
+    <p class="prose lede"><span data-l="en">Every reading of the ending fits one of five hypotheses. The bars show how well the film supports each one. They are a judgement, not a probability.</span><span data-l="sk">Každý výklad záveru zapadá do jednej z piatich hypotéz. Pruhy ukazujú, ako veľmi ktorú film podporuje. Je to úsudok, nie pravdepodobnosť.</span></p>
+  </div>
+  <div class="hyps">
+    <div class="hyp"><span class="id">H1</span><h3><span data-l="en">Both human</span><span data-l="sk">Obaja ľudia</span></h3>
+      <div class="pair"><span class="pill h">Childs</span><span class="pill h">MacReady</span></div>
+      <div class="meter" aria-label="low to moderate"><i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i></div><span class="conf"><span data-l="en">Low to moderate</span><span data-l="sk">Nízka až stredná</span></span>
+      <p><span data-l="en">Childs' story fits what the film shows, and MacReady spends the film destroying Things. But neither test can be checked, and someone has to explain the clothes with MacReady's name.</span><span data-l="sk">Childsov príbeh sedí s tým, čo film ukáže, a MacReady celý film Veci ničí. Ani jeden test sa však nedá overiť a niekto musí vysvetliť odev s MacReadyho menom.</span></p></div>
+    <div class="hyp"><span class="id">H2</span><h3><span data-l="en">Childs is the Thing</span><span data-l="sk">Childs je Vec</span></h3>
+      <div class="pair"><span class="pill t">Childs</span><span class="pill h">MacReady</span></div>
+      <div class="meter" aria-label="low to moderate"><i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i></div><span class="conf"><span data-l="en">Low to moderate</span><span data-l="sk">Nízka až stredná</span></span>
+      <p><span data-l="en">Alone from 01:27:08, unseen for 12 min 45 s while the Blair-Thing roams free. Only he saw Blair. That is opportunity, and no frame shows anything more.</span><span data-l="sk">Sám od 01:27:08, mimo dohľadu 12 min 45 s, kým sa Blair-Vec voľne pohybuje. Blaira videl len on. To je príležitosť a žiadna snímka neukazuje nič viac.</span></p></div>
+    <div class="hyp"><span class="id">H3</span><h3><span data-l="en">MacReady is the Thing</span><span data-l="sk">MacReady je Vec</span></h3>
+      <div class="pair"><span class="pill h">Childs</span><span class="pill t">MacReady</span></div>
+      <div class="meter" aria-label="low to moderate"><i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i></div><span class="conf"><span data-l="en">Low to moderate</span><span data-l="sk">Nízka až stredná</span></span>
+      <p><span data-l="en">The trail of torn clothes runs through the middle of the film and ends with his name on them. His own test cannot be checked. Against it: the plot offers a frame-up, and he kills every Thing he finds.</span><span data-l="sk">Stopa roztrhaného oblečenia vedie stredom filmu a končí jeho menom. Jeho vlastný test sa nedá overiť. Proti: dej ponúka očiernenie a každú Vec, ktorú nájde, zabije.</span></p>
+      <span class="badge"><span data-l="en">Best candidate for the “clue”</span><span data-l="sk">Najlepší kandidát na „indíciu“</span></span></div>
+    <div class="hyp"><span class="id">H4</span><h3><span data-l="en">Both are Things</span><span data-l="sk">Obaja sú Vec</span></h3>
+      <div class="pair"><span class="pill t">Childs</span><span class="pill t">MacReady</span></div>
+      <div class="meter" aria-label="low"><i class="on"></i><i></i><i></i><i></i><i></i></div><span class="conf"><span data-l="en">Low</span><span data-l="sk">Nízka</span></span>
+      <p><span data-l="en">If MacReady is a Thing and Fuchs' rule holds, the last drink makes two. Otherwise two copies would have no reason to keep up the act.</span><span data-l="sk">Ak je MacReady Vec a platí Fuchsovo pravidlo, posledný dúšok z nich urobí dve. Inak by dve kópie nemali dôvod hrať divadlo.</span></p></div>
+    <div class="hyp lead"><span class="id">H5</span><h3><span data-l="en">The film doesn't say</span><span data-l="sk">Film to nepovie</span></h3>
+      <div class="pair"><span class="pill">?</span><span class="pill">?</span></div>
+      <div class="meter" aria-label="high"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="half"></i></div><span class="conf"><span data-l="en">High</span><span data-l="sk">Vysoká</span></span>
+      <p><span data-l="en">The only two tests you cannot check are the survivors'. None of the five popular clues survives a check against the whole film.</span><span data-l="sk">Jediné dva neoveriteľné testy patria preživším. Žiadna z piatich populárnych indícií neobstojí pri porovnaní s celým filmom.</span></p></div>
+  </div>
+  <div class="verdict">
+    <div class="prose">
+      <h3 style="margin-bottom:var(--s2)"><span data-l="en">Our verdict</span><span data-l="sk">Náš verdikt</span></h3>
+      <p class="lede"><span data-l="en">The film does not prove who the Thing is, and it seems cut to keep it that way: the two survivors are exactly the two men whose blood tests you cannot check. For Childs, “human” and “Thing” stay level. Everything against him is opportunity. MacReady is open. If the film hints at anyone, it hints at him.</span><span data-l="sk">Film nedokazuje, kto je Vec, a zdá sa, že ho tak aj zostrihali: dvaja preživší sú presne tí dvaja, ktorých krvný test sa nedá overiť. Pri Childsovi ostávajú „človek“ a „Vec“ vyrovnané. Všetko proti nemu je len príležitosť. MacReady je otvorený. Ak film niekoho naznačuje, tak jeho.</span></p>
+      <p><span data-l="en">If Carpenter's “giant hint in the middle of the film” is real, our best candidate is the trail of torn clothes from 00:41 to 01:14, read through Fuchs' rule. It is a candidate, not an answer. Carpenter has never named the clue, and the plot itself explains the trail as a frame-up. The two men are still waiting by the fire, and so are we.</span><span data-l="sk">Ak Carpenterova „obrovská nápoveda v strede filmu“ existuje, naším najlepším kandidátom je stopa roztrhaného oblečenia od 00:41 po 01:14, čítaná cez Fuchsovo pravidlo. Je to kandidát, nie odpoveď. Carpenter indíciu nikdy nepomenoval a dej sám stopu vysvetľuje ako očiernenie. Dvaja muži stále čakajú pri ohni a my s nimi.</span></p>
+    </div>
+    <figure class="still"><img src="img/final-fire.jpg" alt="The last shot: two small fires burning in the darkness of the ruined camp" loading="lazy" width="1920" height="816"><figcaption><span class="tc">TC 01:42:01 · <span data-l="en">last shot</span><span data-l="sk">posledný záber</span></span></figcaption></figure>
+  </div>
+</div></section>
+
+<!-- ================= 9 METHOD ================= -->
+<section class="ch wrap" id="method"><div class="inner">
+  <div class="ch-head">
+    <span class="num"><span data-l="en">How this was made</span><span data-l="sk">Ako to vzniklo</span></span>
+    <h2 style="font-size:clamp(2rem,5vw,3.6rem)"><span data-l="en">Every claim has a timecode</span><span data-l="sk">Každé tvrdenie má časový kód</span></h2>
+  </div>
+  <div class="nums">
+    <div><b>156,182</b><span data-l="en">frames decoded</span><span data-l="sk">dekódovaných snímok</span></div>
+    <div><b>1,103</b><span data-l="en">shots detected</span><span data-l="sk">rozpoznaných záberov</span></div>
+    <div><b>88</b><span data-l="en">scenes logged by five passes</span><span data-l="sk">scén z piatich priechodov</span></div>
+    <div><b>137,831</b><span data-l="en">faces detected</span><span data-l="sk">rozpoznaných tvárí</span></div>
+    <div><b>329</b><span data-l="en">pieces of evidence</span><span data-l="sk">zaznamenaných indícií</span></div>
+    <div><b>29</b><span data-l="en">external sources checked</span><span data-l="sk">overených zdrojov</span></div>
+  </div>
+  <div class="prose">
+    <p><span data-l="en">We analysed the theatrical cut from a Blu-ray source (1920×816, 23.976 fps). Five independent passes logged the film scene by scene: who is present, who is alone, props, costumes, breath and eyes. The final scene was analysed frame by frame. Face detection and recognition ran on every frame to measure screen time and catchlights. Only after that did we read what the filmmakers and fans have said, and then we re-tested our own conclusions. One of them did not survive. Finally, two rival AI models attacked the verdict. They found two logical mistakes and a trail we had scored piece by piece and never joined. We checked their claims against the frames and the 1981 screenplay and changed the verdict.</span><span data-l="sk">Analyzovali sme kinovú verziu z Blu-ray (1920×816, 23,976 fps). Päť nezávislých priechodov zaznamenalo film scénu po scéne: kto je prítomný, kto je sám, rekvizity, kostýmy, dych a oči. Záverečnú scénu sme prešli snímku po snímke. Rozpoznávanie tvárí bežalo na každej snímke kvôli času na plátne a odleskom v očiach. Až potom sme si prečítali, čo povedali tvorcovia a fanúšikovia, a vlastné závery sme znovu preverili. Jeden z nich neobstál. Nakoniec verdikt napadli dva ďalšie AI modely. Našli dve logické chyby a stopu, ktorú sme hodnotili po kúskoch a nikdy nespojili. Ich tvrdenia sme overili na snímkach a v scenári z roku 1981 a verdikt sme zmenili.</span></p>
+    <p class="muted small"><span data-l="en">The station map is a schematic inferred from on-screen movement, not a floor plan.</span><span data-l="sk">Mapa stanice je schéma odvodená z pohybu postáv vo filme, nie pôdorys.</span></p>
+  </div>
+  <h3 style="margin:var(--s4) 0 var(--s2);font-size:1.6rem"><span data-l="en">Sources</span><span data-l="sk">Zdroje</span></h3>
+  <ul class="sources">
+    <li><b>The Guardian</b>, “How we made The Thing”, 25 Mar 2024 — <a href="https://www.theguardian.com/culture/2024/mar/25/john-carpenter-kurt-russell-the-thing-horror-classic" target="_blank" rel="noopener">theguardian.com</a></li>
+    <li><b>SYFY Wire</b>, 40th-anniversary oral history, 2022 — <a href="https://www.syfy.com/syfy-wire/john-carpenter-the-thing-40th-anniversary-retrospective" target="_blank" rel="noopener">syfy.com</a></li>
+    <li><b>The Late Show with Stephen Colbert</b>, 27 Oct 2023 — <a href="https://www.youtube.com/watch?v=fShQU7HWcwQ" target="_blank" rel="noopener">YouTube</a></li>
+    <li><b>Academy Museum Q&amp;A</b>, Carpenter and Bong Joon Ho, 22 Mar 2025 — <a href="https://www.youtube.com/watch?v=ONOecgYyHkI" target="_blank" rel="noopener">YouTube</a></li>
+    <li><b>The Academy</b>, Carpenter at the Academy Museum Gala, 17 Oct 2026 — <a href="https://x.com/TheAcademy/status/2111861208768819334" target="_blank" rel="noopener">x.com</a></li>
+    <li><b>ComicBook.com</b>, Carpenter on Cundey's theory, 11 Oct 2023 — <a href="https://comicbook.com/horror/news/the-thing-ending-explained-john-carpenter-reaction-human-lights-eyes-childs-macready/" target="_blank" rel="noopener">comicbook.com</a></li>
+    <li><b>Carpenter &amp; Russell</b>, DVD commentary, 1998 — <a href="https://www.youtube.com/watch?v=b-GSqKh0fYg" target="_blank" rel="noopener">YouTube</a></li>
+    <li><b>Rob Galluzzo</b>, Cundey commentary excerpt, 15 Oct 2024 — <a href="https://www.youtube.com/watch?v=icOSKO7jBDs" target="_blank" rel="noopener">YouTube</a></li>
+    <li><b>American Cinematographer</b>, “Flashback: The Thing”, 2017 — <a href="https://theasc.com/articles/flashback-the-thing" target="_blank" rel="noopener">theasc.com</a></li>
+    <li><b>Stuart Cohen</b>, “The Ending You Almost Saw”, 2011 — <a href="https://theoriginalfan.blogspot.com/2011/10/ending-you-almost-saw.html" target="_blank" rel="noopener">theoriginalfan.blogspot.com</a></li>
+    <li><b>Rob Ager</b>, “Clothing continuity theory examined”, 2017 — <a href="https://www.youtube.com/watch?v=u84EQVI8C0A" target="_blank" rel="noopener">YouTube</a></li>
+    <li><b>Bill Lancaster</b>, screenplay, second draft, 4 Mar 1981 — <a href="https://imsdb.com/scripts/Thing,-The.html" target="_blank" rel="noopener">imsdb.com</a></li>
+  </ul>
+</div></section>
+</main>
+
+<footer class="wrap"><div class="inner">
+  <span data-l="en">A fan-made explainer. Stills from <i>The Thing</i> (1982), © Universal Pictures, are used for commentary and analysis. Not affiliated with Universal or the filmmakers. Some stills are brightened for visibility and marked as such.</span>
+  <span data-l="sk">Neoficiálny fanúšikovský sprievodca. Zábery z filmu <i>The Thing</i> (1982), © Universal Pictures, sú použité na komentár a analýzu. Bez spojenia s Universalom či tvorcami. Niektoré zábery sú kvôli viditeľnosti zosvetlené a sú tak označené.</span>
+  <p class="src-link"><span data-l="en">Full reports, the evidence log and the code:</span><span data-l="sk">Celé správy, záznam indícií a kód:</span> <a href="https://github.com/n0ha/athingaboutthething">github.com/n0ha/athingaboutthething</a></p>
+</div></footer>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+(() => {
+"use strict";
+const root = document.documentElement;
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------------- language ---------------- */
+function getLang(){
+  try { const s = localStorage.getItem("att-lang"); if (s === "en" || s === "sk") return s; } catch (e) {}
+  const n = (navigator.language || "en").toLowerCase();
+  return (n.startsWith("sk") || n.startsWith("cs")) ? "sk" : "en";
+}
+let LANG = getLang();
+function setLang(l){
+  LANG = l; root.dataset.lang = l; root.lang = l;
+  document.querySelectorAll("[data-set-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.setLang === l)));
+  try { localStorage.setItem("att-lang", l); } catch (e) {}
+  document.dispatchEvent(new CustomEvent("langchange"));
+}
+document.querySelectorAll("[data-set-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.setLang)));
+setLang(LANG);
+const L = o => (o && typeof o === "object") ? (o[LANG] ?? o.en) : o;
+
+/* ---------------- helpers ---------------- */
+const pad = n => String(n).padStart(2, "0");
+function tc(t, ms){ t = Math.max(0, t); const h = Math.floor(t/3600), m = Math.floor(t%3600/60), s = Math.floor(t%60);
+  return `${pad(h)}:${pad(m)}:${pad(s)}` + (ms ? "." + String(Math.round((t%1)*1000)).padStart(3,"0") : ""); }
+const svgNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent){ const e = document.createElementNS(svgNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+
+/* ---------------- snow ---------------- */
+(function snow(){
+  const c = document.getElementById("snow"); if (!c) return; const x = c.getContext("2d");
+  let W, H, flakes = [], dpr = Math.min(2, window.devicePixelRatio || 1);
+  function size(){ W = c.clientWidth; H = c.clientHeight; c.width = W*dpr; c.height = H*dpr; x.setTransform(dpr,0,0,dpr,0,0);
+    const n = Math.round(Math.min(220, W*H/7000)); flakes = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.8+.4, v:Math.random()*.8+.3, d:Math.random()*.6+.2}));
+    draw(0); }
+  function draw(dt){ x.clearRect(0,0,W,H); x.fillStyle = "rgba(233,242,248,.8)";
+    for (const f of flakes){ f.y += f.v*dt*.06; f.x += (f.d+.6)*dt*.05; if (f.y > H) { f.y = -4; f.x = Math.random()*W; } if (f.x > W) f.x = 0;
+      x.globalAlpha = .35 + f.r/3.2; x.beginPath(); x.arc(f.x, f.y, f.r, 0, 6.283); x.fill(); } x.globalAlpha = 1; }
+  let last = 0, vis = true;
+  new IntersectionObserver(es => { vis = es[0].isIntersecting; }).observe(c);
+  function loop(ts){ const dt = Math.min(50, ts - (last || ts)); last = ts; if (vis) draw(dt); requestAnimationFrame(loop); }
+  size(); window.addEventListener("resize", size);
+  if (!reduceMotion) requestAnimationFrame(loop);
+})();
+
+/* ---------------- tabs ---------------- */
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+tabs.forEach(t => t.addEventListener("click", () => {
+  tabs.forEach(o => { const on = o === t; o.setAttribute("aria-selected", String(on)); document.getElementById(o.getAttribute("aria-controls")).hidden = !on; });
+}));
+document.querySelector('[role="tablist"]').addEventListener("keydown", e => {
+  const i = tabs.indexOf(document.activeElement); if (i < 0) return;
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") { const j = (i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length; tabs[j].focus(); tabs[j].click(); e.preventDefault(); }
+});
+
+/* ---------------- static text tables ---------------- */
+const FATE = {
+  MacReady:{en:"Survives to the last scene.",sk:"Prežije do posledného záberu."},
+  Childs:{en:"Survives to the last scene.",sk:"Prežije do posledného záberu."},
+  Nauls:{en:"Vanishes underground. Fate never shown.",sk:"Zmizne v podzemí. Osud neukázaný."},
+  Windows:{en:"Taken by the Palmer-Thing, burned.",sk:"Pohltený Palmerom-Vecou, spálený.",thing:1},
+  Palmer:{en:"A Thing. Exposed by the blood test.",sk:"Vec. Odhalený krvným testom.",thing:1},
+  Garry:{en:"Attacked by Blair. Fate never shown.",sk:"Napadnutý Blairom. Osud neukázaný."},
+  Blair:{en:"A Thing. Blown up with the station.",sk:"Vec. Vyletí do vzduchu so stanicou.",thing:1},
+  Copper:{en:"Killed by the Norris-Thing.",sk:"Zabitý Norrisom-Vecou."},
+  Norris:{en:"A Thing. Exposed by the defibrillator.",sk:"Vec. Odhalený defibrilátorom.",thing:1},
+  Clark:{en:"Shot by MacReady. Tests human.",sk:"Zastrelený MacReadym. Bol človek."},
+  Bennings:{en:"Assimilated alone, burned.",sk:"Pohltený osamote, spálený.",thing:1},
+  Fuchs:{en:"Found burned in the snow.",sk:"Nájdený spálený v snehu."}
+};
+const STATUS = {on:{en:"on screen",sk:"v zábere"},stated:{en:"place named in dialogue",sk:"miesto uvádza dialóg"},unk:{en:"whereabouts unknown",sk:"poloha neznáma"},dead:{en:"dead",sk:"mŕtvy"},thing:{en:"revealed as a Thing",sk:"odhalená Vec"}};
+const PLACE = {rec:{en:"Rec room",sk:"Rekreačka"},kitchen:{en:"Kitchen",sk:"Kuchyňa"},radio:{en:"Radio room",sk:"Rádiomiestnosť"},infirmary:{en:"Infirmary",sk:"Ošetrovňa"},
+  lab:{en:"Lab",sk:"Laboratórium"},store:{en:"Storeroom",sk:"Sklad"},kennel:{en:"Kennel",sk:"Psinec"},office:{en:"Garry's office",sk:"Garryho kancelária"},
+  quarters:{en:"Quarters",sk:"Izby"},entrance:{en:"Coat room by the entrance",sk:"Šatňa pri vchode"},corridor:{en:"Corridors",sk:"Chodby"},shack:{en:"MacReady's shack",sk:"MacReadyho chatrč"},
+  toolshed:{en:"Toolshed",sk:"Kôlňa"},tunnel:{en:"Tunnel to Blair's ship",sk:"Tunel k Blairovej lodi"},under:{en:"Underground",sk:"Podzemie"},yard:{en:"Outside",sk:"Vonku"},
+  helipad:{en:"Helipad",sk:"Heliport"},glacier:{en:"Glacier",sk:"Ľadovec"},norway:{en:"Norwegian camp",sk:"Nórsky tábor"},crater:{en:"Crater",sk:"Kráter"},
+  ruins:{en:"Ruins of the camp",sk:"Trosky tábora"},unknown:{en:"Unknown",sk:"Neznáme"},dead:{en:"—",sk:"—"},none:{en:"—",sk:"—"}};
+const ABBR = {MacReady:"MAC",Childs:"CHI",Nauls:"NAU",Windows:"WIN",Palmer:"PAL",Garry:"GAR",Blair:"BLA",Copper:"COP",Norris:"NOR",Clark:"CLA",Bennings:"BEN",Fuchs:"FUC"};
+const NODEXY = {radio:[345,212],office:[435,212],lab:[550,212],store:[690,212],quarters:[360,312],rec:[530,312],kitchen:[700,312],infirmary:[360,420],entrance:[475,420],
+  corridor:[585,420],kennel:[700,420],under:[530,522],yard:[530,600],ruins:[530,600],helipad:[820,520],shack:[118,196],toolshed:[120,366],tunnel:[120,466],
+  glacier:[140,72],norway:[390,72],crater:[670,72],unknown:[923,250]};
+const HIND = {Norris:4519, Palmer:4976, Blair:5742};
+
+/* ---------------- data-driven parts ---------------- */
+let D = null, SC = [], CHAR = [], COLOR = {}, T = 350;
+fetch("data.json").then(r => r.json()).then(d => { D = d; init(); }).catch(() => {
+  document.getElementById("evtext").textContent = "Data could not be loaded.";
+});
+
+function init(){
+  SC = D.scenes; CHAR = D.characters.map(c => c.name); D.characters.forEach(c => COLOR[c.name] = c.color);
+  buildCast(); drawBarcode(document.getElementById("barcode-hero"), D.credits_end);
+  buildMap(); buildLanes(); buildChips();
+  setTime(T); document.addEventListener("langchange", () => { buildCast(); buildChips(); buildLanes(); setTime(T); });
+}
+
+function buildCast(){
+  const ul = document.getElementById("cast"); ul.textContent = "";
+  D.characters.forEach(c => { const li = document.createElement("li");
+    const f = FATE[c.name];
+    li.innerHTML = `<span class="dot" style="background:${c.color};color:${c.color}"></span><b>${c.name}</b><span class="role">${LANG==="sk"?c.role[1]:c.role[0]}</span><span class="fate${f.thing?" thing":""}">${L(f)}</span>`;
+    ul.appendChild(li); });
+}
+
+function drawBarcode(cv, total){
+  const hex = D.barcode, n = hex.length/6, x = cv.getContext("2d"), W = cv.width, H = cv.height;
+  for (let i = 0; i < W; i++){ const s = Math.floor(i/W*n); const c = "#" + hex.substr(s*6, 6); x.fillStyle = c; x.fillRect(i, 0, 1, H); }
+}
+
+/* state of one character at time t */
+function sceneAt(t){ let lo = 0, hi = SC.length - 1, a = 0; while (lo <= hi){ const m = (lo+hi) >> 1; if (SC[m].t0 <= t){ a = m; lo = m + 1; } else hi = m - 1; } return SC[a]; }
+function stateAt(c, t){
+  const f = D.fates[c] || {};
+  if (f.dead != null && t >= f.dead) return {st:"dead", node:"dead"};
+  const sc = sceneAt(t); let [st, node] = sc.c[c] || ["unk","unknown"];
+  if (st === "dead") return {st:"dead", node:"dead"};
+  if (node === "none") { st = "unk"; node = "unknown"; }
+  if (sc.id === "S6" && c === "Childs" && t < 5993) { st = "unk"; node = "unknown"; }
+  if (f.lost != null && t >= f.lost && st !== "on") { st = "unk"; node = "unknown"; }
+  if (f.gap && t >= f.gap[0] && t < f.gap[1]) { st = "unk"; node = "unknown"; }
+  if (st === "unk") node = "unknown";
+  const thing = (st === "thing") || !!(f.thing && t >= f.thing[0] && t < f.thing[1] && st !== "unk");
+  if (st === "thing") st = "on";
+  return {st, node, thing};
+}
+function seenAt(c, t){ const iv = D.onscreen[c]; if (!iv) return false; let lo = 0, hi = iv.length - 1;
+  while (lo <= hi){ const m = (lo+hi) >> 1; if (iv[m][1] < t) lo = m + 1; else if (iv[m][0] > t) hi = m - 1; else return true; } return false; }
+
+/* ---------------- map ---------------- */
+let dotEls = {};
+function buildMap(){
+  const g = document.getElementById("dots"); g.textContent = "";
+  CHAR.forEach(c => {
+    const d = el("g", {class:"dot-g"}, g);
+    el("circle", {class:"halo", r:15, stroke:"#e9f2f8", "stroke-width":2}, d);
+    el("circle", {class:"hindring", r:16}, d);
+    el("circle", {class:"thingring", r:14}, d);
+    el("circle", {class:"core", r:11, fill:COLOR[c]}, d);
+    const t = el("text", {}, d); t.textContent = ABBR[c];
+    const ttl = el("title", {}, d); ttl.textContent = c;
+    dotEls[c] = d;
+  });
+  document.getElementById("map").addEventListener("mousemove", e => { const d = e.target.closest(".dot-g"); if (!d) { hideTip(); return; }
+    const c = Object.keys(dotEls).find(k => dotEls[k] === d); const s = stateAt(c, T);
+    showTip(e, `<b>${c}</b> · ${tc(T)}<br>${L(STATUS[s.thing ? "thing" : s.st])}${s.node !== "unknown" && s.node !== "dead" ? " · " + L(PLACE[s.node]) : ""}`); });
+  document.getElementById("map").addEventListener("mouseleave", hideTip);
+}
+let mapDrawn = false;
+function renderMap(t){
+  if (!mapDrawn){ Object.values(dotEls).forEach(d => d.style.transition = "none");
+    requestAnimationFrame(() => requestAnimationFrame(() => Object.values(dotEls).forEach(d => d.style.transition = ""))); mapDrawn = true; }
+  const groups = {}; const dead = [];
+  CHAR.forEach(c => { const s = stateAt(c, t); if (s.node === "dead") { dead.push(c); return; } (groups[s.node] = groups[s.node] || []).push([c, s]); });
+  for (const node in groups){
+    const list = groups[node], [cx, cy] = NODEXY[node] || NODEXY.unknown;
+    const cols = node === "unknown" ? 3 : Math.min(list.length, node === "rec" || node === "yard" || node === "ruins" || node === "under" ? 6 : 4);
+    const sp = 26, rows = Math.ceil(list.length / cols);
+    list.forEach(([c, s], i) => { const r = Math.floor(i / cols), k = i % cols; const inRow = Math.min(cols, list.length - r*cols);
+      const x = cx + (k - (inRow - 1)/2) * sp, y = cy + (r - (rows - 1)/2) * sp + (node === "unknown" ? 0 : 6);
+      const d = dotEls[c]; d.style.transform = `translate(${x}px,${y}px)`; d.style.opacity = "";
+      d.setAttribute("class", "dot-g " + s.st + (s.thing ? " thing" : "") + (seenAt(c, t) ? " seen" : "") + (HIND[c] && t < HIND[c] ? " hind" : "")); });
+  }
+  dead.forEach(c => { const d = dotEls[c]; d.style.opacity = "0"; });
+  // highlight rooms with someone on screen
+  document.querySelectorAll("#map .room[data-node]").forEach(r => r.classList.toggle("hot", !!(groups[r.dataset.node] || []).some(([, s]) => s.st === "on")));
+  document.getElementById("building").classList.toggle("burned", t >= 5918);
+  // dead list
+  const dl = document.getElementById("deadlist"); [...dl.querySelectorAll("text.n,text.d")].forEach(e => e.remove());
+  dead.sort((a, b) => (D.fates[a]?.dead ?? 0) - (D.fates[b]?.dead ?? 0)).forEach((c, i) => {
+    const y = 506 + i*14; const n = el("text", {class:"n", x:872, y}, dl); n.textContent = c;
+    const dd = el("text", {class:"d", x:940, y}, dl); dd.textContent = D.fates[c]?.dead ? tc(D.fates[c].dead).slice(0,5) : ""; });
+}
+
+/* ---------------- swimlanes ---------------- */
+const LX0 = 92, LX1 = 990, RH = 22, TOP = 54;
+const xOf = t => LX0 + (t / D.runtime) * (LX1 - LX0);
+const tOf = x => Math.max(0, Math.min(D.runtime, (x - LX0) / (LX1 - LX0) * D.runtime));
+let cursor = null;
+function buildLanes(){
+  const s = document.getElementById("lanes"); s.textContent = "";
+  const H = TOP + CHAR.length * RH + 40; s.setAttribute("viewBox", `0 0 1000 ${H}`);
+  const defs = el("defs", {}, s);
+  const pat = el("pattern", {id:"hatch", width:6, height:6, patternUnits:"userSpaceOnUse", patternTransform:"rotate(45)"}, defs);
+  el("rect", {width:6, height:6, fill:"rgba(157,178,195,.04)"}, pat); el("line", {x1:0, y1:0, x2:0, y2:6, stroke:"rgba(157,178,195,.22)", "stroke-width":1.2}, pat);
+  // barcode strip as image
+  const cv = document.createElement("canvas"); cv.width = 900; cv.height = 10; drawBarcode(cv);
+  // only narrative part: redraw cropped
+  const cx = cv.getContext("2d"), hex = D.barcode, nN = Math.floor(D.runtime);
+  for (let i = 0; i < 900; i++){ const sI = Math.floor(i/900*nN); cx.fillStyle = "#" + hex.substr(sI*6, 6); cx.fillRect(i, 0, 1, 10); }
+  el("image", {href:cv.toDataURL(), x:LX0, y:8, width:LX1-LX0, height:14, preserveAspectRatio:"none"}, s);
+  // minute axis
+  for (let m = 0; m <= 100; m += 10){ const x = xOf(m*60); el("line", {x1:x, y1:TOP-6, x2:x, y2:TOP + CHAR.length*RH, stroke:"rgba(143,216,255,.08)"}, s);
+    const tx = el("text", {class:"axis", x:x, y:TOP-10, "text-anchor":"middle"}, s); tx.textContent = m === 0 ? "0" : m + "′"; }
+  // bands: blood test, Childs gap
+  el("rect", {x:xOf(4747), y:TOP-4, width:xOf(5230)-xOf(4747), height:CHAR.length*RH+4, fill:"rgba(227,38,46,.07)"}, s);
+  const bt = el("text", {class:"annot", x:xOf(4747)+3, y:TOP + CHAR.length*RH + 14}, s); bt.textContent = LANG === "sk" ? "krvný test" : "blood test";
+  // events ticks
+  D.events.forEach(ev => { if (!ev.key) return; const x = xOf(ev.t); const c = el("circle", {cx:x, cy:31, r:3, fill:"#ff8a2a", style:"cursor:pointer"}, s);
+    const tt = el("title", {}, c); tt.textContent = tc(ev.t) + " · " + L(ev); c.addEventListener("click", ev2 => { ev2.stopPropagation(); setTime(ev.t); }); });
+  // rows
+  CHAR.forEach((c, i) => {
+    const y = TOP + i*RH; const lab = el("text", {class:"lane-label", x:LX0-8, y:y+RH/2+3.5, "text-anchor":"end"}, s); lab.textContent = c;
+    el("circle", {cx:8, cy:y+RH/2, r:4, fill:COLOR[c]}, s);
+    // sample every 2 s and run-length encode
+    let prev = null, start = 0; const step = 2, segs = [];
+    for (let t = 0; t <= D.runtime + step; t += step){ const st = t > D.runtime ? null : stateAt(c, t); const key = st ? st.st + (st.thing ? "T" : "") : "END";
+      if (key !== prev){ if (prev !== null) segs.push([start, Math.min(t, D.runtime), prev]); prev = key; start = t; } }
+    segs.forEach(([a, b, k]) => { const x = xOf(a), w = Math.max(.6, xOf(b) - x); let fill, op = 1;
+      if (k === "onT" || k === "statedT") { fill = "#e3262e"; }
+      else if (k === "on") { fill = COLOR[c]; op = .9; }
+      else if (k === "stated") { fill = COLOR[c]; op = .3; }
+      else if (k === "unk") { fill = "url(#hatch)"; }
+      else return;
+      el("rect", {x, y:y+3, width:w, height:RH-8, fill, "fill-opacity":op, rx:1}, s); });
+    // death cross
+    const f = D.fates[c] || {}; if (f.dead != null){ const t = el("text", {class:"annot", x:xOf(f.dead)+3, y:y+RH/2+3.5, style:"fill:#9db2c3"}, s); t.textContent = "✝"; }
+    // face ticks
+    (D.onscreen[c] || []).forEach(([a, b]) => el("rect", {x:xOf(a), y:y+RH-6, width:Math.max(.7, xOf(b)-xOf(a)), height:2, fill:"#e9f2f8", "fill-opacity":.8}, s));
+  });
+  // Childs gap annotation
+  const ci = CHAR.indexOf("Childs"), gy = TOP + ci*RH; const g0 = xOf(5228), g1 = xOf(5993);
+  el("path", {d:`M${g0} ${gy+1} V${gy-4} H${g1} V${gy+1}`, fill:"none", stroke:"#ff8a2a", "stroke-width":1.2}, s);
+  const ga = el("text", {class:"annot", x:(g0+g1)/2, y:gy-7, "text-anchor":"middle"}, s); ga.textContent = LANG === "sk" ? "12 min 45 s mimo dohľadu" : "12 min 45 s unseen";
+  // cursor
+  cursor = el("line", {x1:0, y1:4, x2:0, y2:TOP + CHAR.length*RH + 4, stroke:"#8fd8ff", "stroke-width":1.5}, s);
+  // interaction
+  const pt = e => { const r = s.getBoundingClientRect(); const vb = s.viewBox.baseVal; return [(e.clientX - r.left) / r.width * vb.width, (e.clientY - r.top) / r.height * vb.height]; };
+  let drag = false;
+  s.onpointerdown = e => { drag = true; s.setPointerCapture(e.pointerId); const [x] = pt(e); setTime(tOf(x)); };
+  s.onpointermove = e => { const [x, y] = pt(e); if (drag) setTime(tOf(x));
+    const i = Math.floor((y - TOP) / RH); if (i >= 0 && i < CHAR.length && x >= LX0) { const c = CHAR[i], t = tOf(x), st = stateAt(c, t);
+      showTip(e, `<b>${c}</b> · ${tc(t)}<br>${L(STATUS[st.thing ? "thing" : st.st])}${st.node !== "unknown" && st.node !== "dead" ? " · " + L(PLACE[st.node]) : ""}`); } else hideTip(); };
+  s.onpointerup = () => { drag = false; }; s.onpointerleave = hideTip;
+}
+
+/* ---------------- tooltip ---------------- */
+const tip = document.getElementById("tip");
+function showTip(e, html){ tip.innerHTML = html; tip.hidden = false; const pad = 14; let x = e.clientX + pad, y = e.clientY + pad;
+  const r = tip.getBoundingClientRect(); if (x + r.width > innerWidth - 8) x = e.clientX - r.width - pad; if (y + r.height > innerHeight - 8) y = e.clientY - r.height - pad;
+  tip.style.left = x + "px"; tip.style.top = y + "px"; }
+function hideTip(){ tip.hidden = true; }
+
+/* ---------------- time + controls ---------------- */
+const scrub = document.getElementById("scrub"), clock = document.getElementById("clock");
+function setTime(t){
+  T = Math.max(0, Math.min(D ? D.runtime : 6127, t)); scrub.value = Math.round(T);
+  clock.firstChild.nodeValue = tc(T);
+  if (!D) return;
+  renderMap(T);
+  if (cursor){ const x = xOf(T); cursor.setAttribute("x1", x); cursor.setAttribute("x2", x); }
+  let ev = null; for (const e of D.events){ if (e.t <= T + .5) ev = e; else break; }
+  document.getElementById("evtext").textContent = ev ? L(ev) : (LANG === "sk" ? "Úvodné titulky" : "Opening titles");
+  document.getElementById("evtime").textContent = ev ? "TC " + tc(ev.t) : "";
+}
+scrub.addEventListener("input", () => { stop(); setTime(+scrub.value); });
+let playing = false, speed = 30, lastTs = 0;
+const playBtn = document.getElementById("play"), icon = document.getElementById("playicon");
+function frame(ts){ if (!playing) return; const dt = Math.min(100, ts - (lastTs || ts)); lastTs = ts; setTime(T + dt/1000*speed); if (T >= D.runtime) { stop(); return; } requestAnimationFrame(frame); }
+function start(){ if (!D) return; if (T >= D.runtime - 1) setTime(0); playing = true; lastTs = 0; icon.textContent = "❚❚"; playBtn.setAttribute("aria-label","Pause"); requestAnimationFrame(frame); }
+function stop(){ playing = false; icon.textContent = "▶"; playBtn.setAttribute("aria-label","Play"); }
+playBtn.addEventListener("click", () => playing ? stop() : start());
+document.querySelectorAll("[data-speed]").forEach(b => b.addEventListener("click", () => { speed = +b.dataset.speed;
+  document.querySelectorAll("[data-speed]").forEach(o => o.setAttribute("aria-pressed", String(o === b))); }));
+const hind = document.getElementById("hind");
+hind.addEventListener("click", () => { const on = hind.getAttribute("aria-pressed") !== "true"; hind.setAttribute("aria-pressed", String(on)); document.getElementById("mapbox").classList.toggle("show-hind", on); });
+function buildChips(){
+  const box = document.getElementById("chips"); box.textContent = "";
+  D.events.filter(e => e.key).forEach(e => { const b = document.createElement("button"); b.type = "button";
+    b.innerHTML = `<span class="t">${tc(e.t).slice(0,5)}</span>${L(e)}`; b.addEventListener("click", () => { stop(); setTime(e.t); }); box.appendChild(b); });
+}
+})();
+</script>
