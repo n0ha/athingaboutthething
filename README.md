@@ -74,6 +74,10 @@ python3 -m http.server -d web/dist 8000
 Every push to `main` that touches `web/` deploys `web/dist/` to GitHub Pages
 (`.github/workflows/pages.yml`).
 
+The live site counts visits with [GoatCounter](https://www.goatcounter.com/): no cookies and
+no personal data. The counter is added only at deployment, from the repository variable
+`GOATCOUNTER_URL`, so local builds and copies of the site do not report anything.
+
 ## License
 
 - Code (scripts, build, the page's markup and JavaScript): MIT, see `LICENSE`.

@@ -24,7 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Build
-        run: BASE_URL=https://thething.n0ha.tech/ web/build_site.sh
+        env:
+          BASE_URL: https://thething.n0ha.tech/
+          GOATCOUNTER_URL: ${{ vars.GOATCOUNTER_URL }}
+        run: web/build_site.sh
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:

@@ -7,9 +7,16 @@
 #   sk.html     Slovak card (og-sk.jpg), opens in Slovak — share https://<host>/sk
 #   BASE_URL=https://example.org/ ./build_site.sh   # absolute URLs for link previews
 # The preview cards come from make_og.py.
+# Visit counting is added only when GOATCOUNTER_URL is set (https://<code>.goatcounter.com/count).
+# The live deployment takes it from the repository variable of the same name, so local builds
+# and copies of the site count nothing.
 set -euo pipefail
 cd "$(dirname "$0")"
 BASE_URL=${BASE_URL:-}
+GOATCOUNTER_URL=${GOATCOUNTER_URL:-}
+if [[ -n $GOATCOUNTER_URL && ! $GOATCOUNTER_URL =~ ^https://[a-z0-9-]+\.goatcounter\.com/count$ ]]; then
+  echo "GOATCOUNTER_URL must look like https://<code>.goatcounter.com/count" >&2; exit 1
+fi
 rm -rf dist && mkdir -p dist/img
 cp data.json events.json favicon.svg og-en.jpg og-sk.jpg dist/
 cp img/*.jpg dist/img/
@@ -52,6 +59,9 @@ EOF
   fi
   # the fragment's own description is English; the Slovak page gets its own
   grep -v 'name="claude:' index.html | sed "s|<meta name=\"description\" content=\"[^\"]*\">|<meta name=\"description\" content=\"${desc//&/\\&}\">|"
+  if [[ -n $GOATCOUNTER_URL ]]; then  # cookieless visit counter, live site only
+    printf '<script data-goatcounter="%s" async src="https://gc.zgo.at/count.js"></script>\n' "$GOATCOUNTER_URL"
+  fi
   printf '</html>\n'
 }
 
