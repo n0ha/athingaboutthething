@@ -127,6 +127,7 @@ section.ch{padding-block:var(--s6) var(--s5);position:relative}
 @media (max-width:1060px){.cast{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:640px){.cast{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .cast li{list-style:none;background:var(--night);padding:var(--s2);display:grid;grid-template-columns:auto 1fr;gap:.2rem .7rem;align-items:start}
+.cast .face{grid-column:1/-1;width:calc(100% + 2*var(--s2));max-width:none;aspect-ratio:1;object-fit:cover;margin:calc(-1*var(--s2)) calc(-1*var(--s2)) .55rem;border-bottom:3px solid var(--c,var(--line));background:var(--line)}
 .cast .dot{width:14px;height:14px;border-radius:50%;margin-top:.35rem;box-shadow:0 0 12px currentColor}
 .cast b{font-family:var(--display);font-size:1.45rem;letter-spacing:.04em;text-transform:uppercase;line-height:1}
 .cast .role{grid-column:2;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--frost)}
@@ -434,7 +435,7 @@ footer a{color:inherit;text-underline-offset:3px}
 </div></section>
 
 <div class="fire-band"><img src="img/kennel.jpg" alt="The half-formed dog creature in the kennel, wet and red" loading="lazy" width="1600" height="680">
-  <div class="over wrap"><div class="inner"><span class="tc">TC 00:31:00.734</span> <span class="muted small"><span data-l="en">The kennel. The Thing caught halfway through copying a dog.</span><span data-l="sk">Psinec. Vec pristihnutá v polovici kopírovania psa.</span></span></div></div></div>
+  <div class="over wrap"><div class="inner"><span class="tc">TC 00:31:00.734</span> <span class="muted small"><span data-l="en">The kennel. The Thing caught halfway through copying a dog.</span><span data-l="sk">Psie kotce. Vec pristihnutá v polovici kopírovania psa.</span></span></div></div></div>
 
 <!-- ================= 3 RULES ================= -->
 <section class="ch wrap" id="rules"><div class="inner">
@@ -519,7 +520,7 @@ footer a{color:inherit;text-underline-offset:3px}
           <rect class="room" data-node="corridor" x="530" y="360" width="110" height="110"/>
           <text class="room-label" x="536" y="375"><tspan data-l="en">Corridors</tspan><tspan data-l="sk">Chodby</tspan></text>
           <rect class="room" data-node="kennel" x="640" y="360" width="120" height="110"/>
-          <text class="room-label" x="646" y="375"><tspan data-l="en">Kennel</tspan><tspan data-l="sk">Psinec</tspan></text>
+          <text class="room-label" x="646" y="375"><tspan data-l="en">Kennel</tspan><tspan data-l="sk">Psie kotce</tspan></text>
           <rect class="room" data-node="under" x="330" y="490" width="400" height="58" rx="2" stroke-dasharray="5 4"/>
           <text class="room-label" x="338" y="506"><tspan data-l="en">Level −1 · generator · old storage</tspan><tspan data-l="sk">Podzemie · generátor · starý sklad</tspan></text>
         </g>
@@ -1011,7 +1012,7 @@ const FATE = {
 };
 const STATUS = {on:{en:"on screen",sk:"v zábere"},stated:{en:"place named in dialogue",sk:"miesto uvádza dialóg"},unk:{en:"whereabouts unknown",sk:"poloha neznáma"},dead:{en:"dead",sk:"mŕtvy"},thing:{en:"revealed as a Thing",sk:"odhalená Vec"}};
 const PLACE = {rec:{en:"Rec room",sk:"Rekreačka"},kitchen:{en:"Kitchen",sk:"Kuchyňa"},radio:{en:"Radio room",sk:"Rádiomiestnosť"},infirmary:{en:"Infirmary",sk:"Ošetrovňa"},
-  lab:{en:"Lab",sk:"Laboratórium"},store:{en:"Storeroom",sk:"Sklad"},kennel:{en:"Kennel",sk:"Psinec"},office:{en:"Garry's office",sk:"Garryho kancelária"},
+  lab:{en:"Lab",sk:"Laboratórium"},store:{en:"Storeroom",sk:"Sklad"},kennel:{en:"Kennel",sk:"Psie kotce"},office:{en:"Garry's office",sk:"Garryho kancelária"},
   quarters:{en:"Quarters",sk:"Izby"},entrance:{en:"Coat room by the entrance",sk:"Šatňa pri vchode"},corridor:{en:"Corridors",sk:"Chodby"},shack:{en:"MacReady's shack",sk:"MacReadyho chatrč"},
   toolshed:{en:"Toolshed",sk:"Kôlňa"},tunnel:{en:"Tunnel to Blair's ship",sk:"Tunel k Blairovej lodi"},under:{en:"Underground",sk:"Podzemie"},yard:{en:"Outside",sk:"Vonku"},
   helipad:{en:"Helipad",sk:"Heliport"},glacier:{en:"Glacier",sk:"Ľadovec"},norway:{en:"Norwegian camp",sk:"Nórsky tábor"},crater:{en:"Crater",sk:"Kráter"},
@@ -1039,7 +1040,7 @@ function buildCast(){
   const ul = document.getElementById("cast"); ul.textContent = "";
   D.characters.forEach(c => { const li = document.createElement("li");
     const f = FATE[c.name];
-    li.innerHTML = `<span class="dot" style="background:${c.color};color:${c.color}"></span><b>${c.name}</b><span class="role">${LANG==="sk"?c.role[1]:c.role[0]}</span><span class="fate${f.thing?" thing":""}">${L(f)}</span>`;
+    li.innerHTML = `<img class="face" src="img/cast/${c.name.toLowerCase()}.jpg" alt="" width="240" height="240" loading="lazy" decoding="async" style="--c:${c.color}"><span class="dot" style="background:${c.color};color:${c.color}"></span><b>${c.name}</b><span class="role">${LANG==="sk"?c.role[1]:c.role[0]}</span><span class="fate${f.thing?" thing":""}">${L(f)}</span>`;
     ul.appendChild(li); });
 }
 

@@ -17,9 +17,10 @@ GOATCOUNTER_URL=${GOATCOUNTER_URL:-}
 if [[ -n $GOATCOUNTER_URL && ! $GOATCOUNTER_URL =~ ^https://[a-z0-9-]+\.goatcounter\.com/count$ ]]; then
   echo "GOATCOUNTER_URL must look like https://<code>.goatcounter.com/count" >&2; exit 1
 fi
-rm -rf dist && mkdir -p dist/img
+rm -rf dist && mkdir -p dist/img/cast
 cp data.json events.json favicon.svg og-en.jpg og-sk.jpg dist/
 cp img/*.jpg dist/img/
+cp img/cast/*.jpg dist/img/cast/
 
 desc_en="MacReady, or Childs? A frame-by-frame investigation of John Carpenter's film: the rules, who was where, the clues and the verdict. In English and Slovak."
 desc_sk="MacReady, alebo Childs? Rozbor Carpenterovho filmu snímku po snímke: pravidlá, kto bol kde, stopy a verdikt. Po slovensky aj po anglicky."
